@@ -1,0 +1,82 @@
+package Menu;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+class MyFrame extends JFrame {
+    JTextField text;
+    String word;
+
+    MyFrame() {
+        this.setTitle("Menu Example");
+        JPanel panel = new JPanel();
+        this.setSize(400, 600);
+        word = "";
+
+        text = new JTextField(20); // Set the text field with a reasonable size
+        panel.add(text); // Add the text field to the panel
+
+        // Create JMenuBar
+        JMenuBar menuBar = new JMenuBar();
+
+        // Create first menu
+        JMenu fileMenu = new JMenu("파일");
+        menuBar.add(fileMenu);
+
+        // Create sub-menu for File menu
+        JMenu open = new JMenu("열기");
+        fileMenu.add(open);
+
+        // Add items to the File menu
+        JMenuItem projectItem = new JMenuItem("저장하기");
+        projectItem.addActionListener(e -> {
+            text.setText(projectItem.getText());
+        });
+        JMenuItem moduleItem = new JMenuItem("다른이름으로 저장하기");
+        moduleItem.addActionListener(e -> {
+            text.setText(moduleItem.getText());
+        });
+        fileMenu.add(projectItem);
+        fileMenu.add(moduleItem);
+
+        // Create menu items for printing
+        JMenuItem print = new JMenuItem("출력");
+        print.addActionListener(e -> {
+            text.setText(print.getText());
+        });
+        JMenuItem printerPrint = new JMenuItem("프린터로 출력하기");
+        printerPrint.addActionListener(e -> {
+            text.setText(printerPrint.getText());
+        });
+        JMenuItem pdfPrint = new JMenuItem("pdf로 출력하기");
+        pdfPrint.addActionListener(e -> {
+            text.setText(pdfPrint.getText());
+        });
+
+        // Add print menu items to the File menu
+        fileMenu.add(print);
+        fileMenu.add(printerPrint);
+        fileMenu.add(pdfPrint);
+
+        // Set the menu bar for the frame
+        this.setJMenuBar(menuBar);
+
+        // Add panel to the frame
+        this.add(panel);
+
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
+
+public class menu {
+
+    public static void main(String[] args) {
+        MyFrame f = new MyFrame();
+    }
+}
+

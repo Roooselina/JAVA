@@ -1,0 +1,66 @@
+package ㄹㅇㄴㅁ;
+
+class Student {
+
+	private String studentID;
+
+	private String name;
+
+	Student(String ID, String name) {
+
+		studentID = ID;
+
+		this.name = name;
+
+	}
+
+	public String getStudentID() {
+
+		return studentID;
+
+	}
+
+	public void setStudentID(String studentID) {
+
+		this.studentID = studentID;
+
+	}
+
+	public String getName() {
+
+		return name;
+
+	}
+
+	public void setName(String name) {
+
+		this.name = name;
+
+	}
+
+	public boolean equals(Object obj) {
+		if (obj instanceof Student) {
+
+			Student otherStudent = (Student) obj;
+
+			return this.studentID.equals(otherStudent.studentID);
+
+		}
+		return false;
+	}
+
+}
+
+public class StudentTest {
+
+	public static void main(String[] args) {
+
+		Student student1 = new Student("20230001", "홍길동");
+
+		Student student2 = new Student("20230001", "이순신");
+
+		System.out.println(student1.equals(student2));
+
+	}
+
+}

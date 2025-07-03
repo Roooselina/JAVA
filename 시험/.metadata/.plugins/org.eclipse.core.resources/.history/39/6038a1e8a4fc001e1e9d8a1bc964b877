@@ -1,0 +1,15 @@
+package 시험;
+
+interface Animal{
+	void bark();
+}
+
+
+public class test {
+
+	public static void main(String[] args) {
+		Animal dog = (Animal) new Object();
+		dog.bark();
+	}
+}
+

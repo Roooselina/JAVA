@@ -1,0 +1,73 @@
+package 교과서;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+class myPanel extends JPanel {
+	JLabel t;
+	JPanel text, color;
+
+	public myPanel(String Col, Color c) {
+		this.setLayout(new BorderLayout(20, 20));
+
+		t = new JLabel(Col);
+
+		text = new JPanel();
+		color = new JPanel();
+		color.setBackground(c);
+
+		this.add(text, BorderLayout.NORTH);
+		text.add(t);
+		this.add(color, BorderLayout.CENTER);
+
+		this.setVisible(true);
+	}
+}
+
+class MyClass extends JFrame {
+	JButton yes;
+	JTextField tf;
+	JLabel text;
+
+	public MyClass() {
+		this.setTitle("My Frame");
+		this.setSize(600, 200);
+		this.setLayout(new BorderLayout());
+
+		JPanel panel1 = new JPanel();
+		panel1.setLayout(new GridLayout(1, 5));
+		panel1.setBorder(new EmptyBorder(20, 20, 20, 20));
+
+		//
+		myPanel fir = new myPanel("Red", Color.RED);
+		myPanel se = new myPanel("Yellow", Color.YELLOW);
+		myPanel th = new myPanel("Green", Color.GREEN);
+		myPanel fort = new myPanel("Blue", Color.BLUE);
+		myPanel emtpy = new myPanel(" ", null);
+		//
+		panel1.add(fir);
+		panel1.add(se);
+		panel1.add(th);
+		panel1.add(fort);
+		panel1.add(emtpy);
+		
+		this.add(panel1);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+}
+
+public class Main extends JFrame {
+	public static void main(String[] args) {
+		MyClass N = new MyClass();
+	}
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.awt.Image"/>
+    <fullyQualifiedTypeName name="javax.swing.BorderFactory"/>
+    <fullyQualifiedTypeName name="java.awt.Frame"/>
+    <fullyQualifiedTypeName name="java.awt.Frame.AccessibleAWTFrame"/>
+    <fullyQualifiedTypeName name="main.StartGame.GameStory"/>
+    <fullyQualifiedTypeName name="java.awt.Font"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="javax.swing.text.html.parser.Entity"/>
+    <fullyQualifiedTypeName name="Object.SuperObjects"/>
+    <fullyQualifiedTypeName name="Object.OBJ_Handler"/>
+    <fullyQualifiedTypeName name="Object.OBJ_BOX_RIGHT"/>
+    <fullyQualifiedTypeName name="Object.OBJ_BOX"/>
+    <fullyQualifiedTypeName name="Tile.TileManager"/>
+    <fullyQualifiedTypeName name="main.CollisionChecker"/>
+    <fullyQualifiedTypeName name="org.w3c.dom.Entity"/>
+    <fullyQualifiedTypeName name="main.ObjectSetter"/>
+    <fullyQualifiedTypeName name="Object.OBJ_OPEN_BOX"/>
+    <fullyQualifiedTypeName name="java.net.URL"/>
+    <fullyQualifiedTypeName name="javax.sound.sampled.AudioSystem"/>
+    <fullyQualifiedTypeName name="javax.sound.sampled.AudioInputStream"/>
+    <fullyQualifiedTypeName name="main.Sound"/>
+    <fullyQualifiedTypeName name="javax.swing.JPanel"/>
+    <fullyQualifiedTypeName name="main.GameScreen"/>
+    <fullyQualifiedTypeName name="java.awt.FontMetrics"/>
+    <fullyQualifiedTypeName name="main.GamePanel"/>
+    <fullyQualifiedTypeName name="main.UI"/>
+    <fullyQualifiedTypeName name="java.awt.Graphics2D"/>
+    <fullyQualifiedTypeName name="java.awt.Rectangle"/>
+    <fullyQualifiedTypeName name="Dialogue.Monologue"/>
+    <fullyQualifiedTypeName name="Monster.MON_TreeMonster"/>
+    <fullyQualifiedTypeName name="java.awt.Color"/>
+    <fullyQualifiedTypeName name="Entity.CommonEntity"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+</qualifiedTypeNameHistroy>

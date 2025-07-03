@@ -1,0 +1,47 @@
+package main;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
+public class GameScreen {
+	static JFrame window = new JFrame();
+	static GamePanel gamePanel = new GamePanel();
+
+	public static void main(String[] args) {
+		// 윈도우 설정
+		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // 프로그램이 닫힐 때 종료
+		window.setTitle("TIME OF EBIR : LAND OF TWILIGHT"); // 윈도우 제목 설정
+		window.setResizable(false); // 창 크기 변경 불가
+
+		// 게임 패널을 윈도우에 추가
+		window.add(gamePanel);
+
+		// 윈도우 크기를 게임 패널에 맞추기
+		window.pack();
+
+		// 윈도우 위치 설정 (100, 0)
+		window.setLocation(100, 10);
+
+		// 게임 설정과 게임 스레드 시작
+		setupGame();
+		startGameThread();
+
+		// 윈도우 화면에 표시
+		window.setVisible(true);
+	}
+
+	// 게임 설정 메서드
+	public static void setupGame() {
+		gamePanel.setupGame();
+	}
+
+	// 게임 스레드 시작 메서드
+	public static void startGameThread() {
+		gamePanel.startGameThread();
+	}
+
+	// 윈도우 이동 메서드
+	public static void moveWindow(int dx, int dy) {
+		window.setLocation(window.getX() + dx, window.getY() + dy);
+	}
+}

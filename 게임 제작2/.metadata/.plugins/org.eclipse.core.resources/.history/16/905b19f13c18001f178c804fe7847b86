@@ -1,0 +1,81 @@
+package Tile;
+
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import main.GamePanel;
+
+public class TileManger {
+
+	GamePanel gp;
+	int[][] mapTileNum;
+	Tile[] tile;
+	TileRead tileReader;
+	
+    String Cave1 = "C:\\Users\\kuroc\\OneDrive\\바탕 화면\\과제\\JAVA\\게임 제작2\\main\\src\\gameBackground\\동굴1.txt"; // 파일 경로 설정
+    
+	
+	
+	public TileManger(GamePanel gp){
+		this.gp = gp;
+		tile = new Tile[10];	// 타일 종류
+		getTileImage();
+		tileReader = new TileRead(gp);
+		mapTileNum = new int[gp.getMaxScreenCol()][gp.getMaxScreenLow()];
+	}
+	
+	public void getTileImage() {
+		try {
+			tile[0] = new Tile();
+			tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌바닥.png"));
+			tile[1] = new Tile();
+			tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌바닥2.png"));
+			tile[2] = new Tile();
+			tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌바닥3.png"));
+			tile[3] = new Tile();
+			tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/버튼.png"));
+			tile[4] = new Tile();
+			tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌벽_상.png"));
+			tile[5] = new Tile();
+			tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌벽_중.png"));
+			tile[6] = new Tile();
+			tile[6].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌벽_하.png"));
+			tile[7] = new Tile();
+			tile[7].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌벽_꼭대기.png"));
+			
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void draw(Graphics2D g2) {
+		int col = 0;
+		int row = 0;
+		int x = 0;
+		int y = 0;
+		
+		mapTileNum=tileReader.loadMap(Cave1);
+		
+		while (col<gp.getMaxScreenCol() && row < gp.getMaxScreenLow()) {
+			int tileNum = mapTileNum[col][row];
+			g2.drawImage(tile[tileNum].image, x , y, gp.getOrigianlCharacterSize(), gp.getOrigianlCharacterSize(), null);
+			col++;
+			x+=gp.getOrigianlCharacterSize();
+			
+			if (col == gp.getMaxScreenCol()) {
+				col=0;
+				col=0;
+				x=0;
+				row++;
+				y+=gp.getOrigianlCharacterSize();
+			}
+		}
+	}
+
+
+}

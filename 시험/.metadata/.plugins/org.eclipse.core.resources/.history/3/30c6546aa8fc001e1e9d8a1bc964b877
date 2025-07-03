@@ -1,0 +1,45 @@
+package 시험;
+
+interface Movable{
+	void move(int dx, int dy);
+}
+
+class shape{
+	int x;
+	int y;
+	shape(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+}
+class Circle extends shape implements Movable{
+	int radius;
+	
+	Circle(int x, int y, int r) {
+		super(x, y);
+		radius = r;
+	}
+
+	@Override
+	public void move(int dx, int dy) {
+		x-=dx;
+		y-=dy;
+		System.out.println(x+" "+y);
+	}
+}
+
+
+public class test {
+
+	public static void main(String[] args) {
+		Movable [] list = new Movable[3];
+		
+		for (int i=0;i<3;i++) {
+			list[i] = new Circle(i+10,i+10,i+10);
+		}
+		for (int i=0;i<3;i++) {
+			list[i].move(i+4, i+5);
+		}
+		
+	}
+}

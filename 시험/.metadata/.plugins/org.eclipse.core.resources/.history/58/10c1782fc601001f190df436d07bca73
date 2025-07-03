@@ -1,0 +1,59 @@
+package 중간;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
+class Car{
+	int speed;
+	int x;
+	int y;
+	Color color;
+
+	Car(int speed, int x, int y, Color color){
+		this.speed = speed;
+		this.x=x;
+		this.y=y;
+		this.color=color;
+	}
+}
+
+
+class MyScreen extends JFrame {
+    ArrayList<Car> carList;
+
+    MyScreen(String name, ArrayList<Car> carList) {
+        this.carList = carList;
+        this.setTitle(name);
+        this.setSize(800, 600);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setVisible(true);
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        for (Car car : carList) {
+            g.setColor(car.color);
+            g.fillRect(car.x, car.y, 50, 30); // 자동차를 사각형으로 그립니다.
+        }
+    }
+}
+
+	
+
+
+public class test {
+
+	public static void main(String[] args) {
+		ArrayList<Car> list = new ArrayList<Car>();
+		list.add(new Car(10, 20,20, new Color(20,20,100)));
+		list.add(new Car(20, 20,80, new Color(80,80,200)));
+		list.add(new Car(30, 20,160, new Color(150,150,300)));
+		
+		MyScreen mc = new MyScreen("Car Animation", list);
+	}
+
+}

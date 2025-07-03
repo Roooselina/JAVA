@@ -1,0 +1,48 @@
+package 교과서;
+
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+
+class MyClass extends JFrame {
+	int num = 0;
+	JLabel text;
+	
+	class Action implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			text.setText(++num+"");
+		}
+		
+	}
+
+	public MyClass() {
+		JPanel panel1 = new JPanel();
+		this.setSize(600,500);
+		this.setLayout(new FlowLayout());
+		text = new JLabel(num+"");
+		JButton btn = new JButton("SDf");
+		btn.addActionListener(new Action());
+		
+		panel1.add(text);
+		panel1.add(btn);
+		
+		this.add(panel1);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+}
+
+public class Main extends JFrame {
+	public static void main(String[] args) {
+		MyClass N = new MyClass();
+	}
+}

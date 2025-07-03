@@ -1,0 +1,33 @@
+package main;
+
+import Object.OBJ_BOX_LEFT;
+import Object.OBJ_BOX_RIGHT;
+import Object.OBJ_STAIR;
+
+public class ObjectSetter {
+	GamePanel gp;
+	
+	public ObjectSetter(GamePanel gp) {
+		this.gp = gp;
+	}
+	
+	public void setObject() {
+		gp.obj[0] = new OBJ_BOX_LEFT();
+		gp.obj[0].worldX = 2 * gp.getOrigianlCharacterSize();
+		gp.obj[0].worldY = 1 * gp.getOrigianlCharacterSize();
+		
+		gp.obj[1] = new OBJ_BOX_LEFT();
+		gp.obj[1].worldX = 2 * gp.getOrigianlCharacterSize();
+		gp.obj[1].worldY = 14 * gp.getOrigianlCharacterSize();
+		
+		gp.obj[2] = new OBJ_BOX_RIGHT();
+		gp.obj[2].worldX = 3 * gp.getOrigianlCharacterSize();
+		gp.obj[2].worldY = 1 * gp.getOrigianlCharacterSize();
+		
+		gp.obj[3] = new OBJ_BOX_RIGHT();
+		gp.obj[3].worldX = 3 * gp.getOrigianlCharacterSize();
+		gp.obj[3].worldY = 14 * gp.getOrigianlCharacterSize();
+		
+		
+	}
+}

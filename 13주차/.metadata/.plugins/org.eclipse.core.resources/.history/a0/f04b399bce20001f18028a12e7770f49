@@ -1,0 +1,61 @@
+package week12_02;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+class MyFrame extends JFrame {
+	int n = 0;
+	int r=100;
+
+	MyFrame() {
+		this.setTitle("신호등");
+		this.setSize(600, 300);
+		this.add(new MyPanel());
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+
+	class MyPanel extends JPanel implements ActionListener {
+		int light_number = 0;
+
+		public MyPanel() {
+			setLayout(new BorderLayout());
+			JButton b = new JButton("신호 변경");
+			b.addActionListener(e -> {
+				n += 1;
+				if (n == 3)
+					n = 0;
+			});
+			b.addActionListener(this);
+			add(b, BorderLayout.SOUTH);
+		}
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			if (n==0) {
+				g.setColor(Color.RED);
+				g.fillOval(r, r, r, r);
+			}
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	}
+
+}
+
+public class main {
+
+	public static void main(String[] args) {
+		MyFrame m = new MyFrame();
+	}
+
+}

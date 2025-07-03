@@ -1,0 +1,43 @@
+package 교과서;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+class MyClass extends JFrame {
+	JLabel findText;
+	JTextField f;
+	JCheckBox ch1, ch2, ch3, ch4;
+	JButton find, cancle;
+	
+	MyClass() {
+		this.setSize(500, 200);
+		this.setLayout(new BorderLayout());
+		
+		JPanel p1 = new JPanel();
+		this.add(p1, BorderLayout.WEST);
+		findText = new JLabel("찾기 대화 상자");
+		p1.add(findText);
+		
+		JPanel p2 = new JPanel();
+		this.add(p2, BorderLayout.CENTER);
+		findText = new JLabel("찾기 대화 상자");
+		p2.add(findText);
+		
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+
+}
+
+public class Main extends JFrame {
+	public static void main(String[] args) {
+		MyClass N = new MyClass();
+	}
+}

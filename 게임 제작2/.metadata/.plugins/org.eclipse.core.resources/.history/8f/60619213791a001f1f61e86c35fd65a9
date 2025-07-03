@@ -1,0 +1,156 @@
+package main;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class KeyHandler implements KeyListener {
+    public boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed, enterPressed;
+    GamePanel gp;
+
+    // KeyHandler 생성자
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
+
+    // 키를 누르는 동작에 대한 이벤트 처리
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode(); // 누른 키의 코드를 가져옵니다.
+
+        // 현재 게임 상태가 타이틀 상태인지 확인합니다.
+        if (gp.gameState == gp.titleState) {
+            // 위쪽 화살표 키를 눌렀을 때
+            if (code == KeyEvent.VK_UP) {
+                gp.ui.commandNum--; // 선택된 명령어를 위로 이동합니다.
+                if (gp.ui.commandNum < 0) { // 선택된 명령어가 범위를 벗어나면
+                    gp.ui.commandNum = 2; // 가장 마지막 명령어로 이동합니다.
+                }
+            // 아래쪽 화살표 키를 눌렀을 때
+            } else if (code == KeyEvent.VK_DOWN) {
+                gp.ui.commandNum++; // 선택된 명령어를 아래로 이동합니다.
+                if (gp.ui.commandNum > 2) { // 선택된 명령어가 범위를 벗어나면
+                    gp.ui.commandNum = 0; // 가장 첫 번째 명령어로 이동합니다.
+                }
+            }
+            // 엔터 키를 눌렀을 때
+            if (code == KeyEvent.VK_ENTER) {
+                if (gp.ui.commandNum == 0) {
+                    // "NEW GAME"을 선택했을 때
+                    gp.gameState = gp.ScriptState; // 게임 상태를 스크립트 상태로 변경
+                    gp.ui.scriptNum = 0; // 스크립트 번호를 초기화
+                } else if (gp.ui.commandNum == 1) {
+                    // "LOAD GAME"을 선택했을 때
+                    // 아직 구현되지 않음
+                } else if (gp.ui.commandNum == 2) {
+                    // "QUIT"을 선택했을 때
+                    System.exit(1); // 프로그램을 종료
+                }
+            }
+        }
+
+		// 현재 게임 상태가 스크립트 상태인지 확인합니다.
+        if (gp.gameState == gp.ScriptState) {
+            // 엔터 키를 눌렀을 때
+            if (code == KeyEvent.VK_BACK_SPACE) {
+                gp.ui.scriptNum++; // 다음 스크립트로 이동합니다.
+            }
+            // 스크립트 번호가 4일 때 명령어 선택을 가능하게 합니다.
+            if (gp.ui.scriptNum == 4) {
+                // 위쪽 화살표 키를 눌렀을 때
+                if (code == KeyEvent.VK_UP) {
+                    gp.ui.commandNum--; // 선택된 명령어를 위로 이동합니다.
+                    if (gp.ui.commandNum < 0) { // 선택된 명령어가 범위를 벗어나면
+                        gp.ui.commandNum = 1; // 가장 마지막 명령어로 이동합니다.
+                    }
+                // 아래쪽 화살표 키를 눌렀을 때
+                } else if (code == KeyEvent.VK_DOWN) {
+                    gp.ui.commandNum++; // 선택된 명령어를 아래로 이동합니다.
+                    if (gp.ui.commandNum > 1) { // 선택된 명령어가 범위를 벗어나면
+                        gp.ui.commandNum = 0; // 가장 첫 번째 명령어로 이동합니다.
+                    }
+                }
+                // 엔터 키를 눌렀을 때
+                if (code == KeyEvent.VK_ENTER) {
+                    if (gp.ui.commandNum == 0) {
+                        // "NEW GAME"을 선택했을 때
+                        gp.gameState = gp.playState; // 게임 상태를 플레이 상태로 변경
+                        gp.ui.scriptNum = 0; // 스크립트 번호를 초기화
+                    } else if (gp.ui.commandNum == 1) {
+                        // "LOAD GAME"을 선택했을 때
+                        // 아직 구현되지 않음
+                    }
+                }
+
+
+			}
+		}
+
+        // W 키 눌렀을 때
+        if (code == KeyEvent.VK_W) {
+            upPressed = true;
+        } 
+        // A 키 눌렀을 때
+        else if (code == KeyEvent.VK_A) {
+            leftPressed = true;
+        } 
+        // S 키 눌렀을 때
+        else if (code == KeyEvent.VK_S) {
+            downPressed = true;
+        } 
+        // D 키 눌렀을 때
+        else if (code == KeyEvent.VK_D) {
+            rightPressed = true;
+        } 
+        // Space 키 눌렀을 때
+        else if (code == KeyEvent.VK_SPACE) {
+            spacePressed = true;
+        } 
+        // ESC 키 눌렀을 때
+        else if (code == KeyEvent.VK_ESCAPE) {
+            // 게임 상태를 전환합니다.
+            if (gp.gameState == gp.playState) {
+                gp.gameState = gp.pauseState; // 플레이 상태에서 일시 정지 상태로 전환
+            } else if (gp.gameState == gp.pauseState) {
+                gp.gameState = gp.playState; // 일시 정지 상태에서 플레이 상태로 전환
+            }
+        }
+    }
+
+    // 키를 뗀 동작에 대한 이벤트 처리
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode(); // 뗀 키의 코드를 가져옵니다.
+
+        // W 키를 뗐을 때
+        if (code == KeyEvent.VK_W) {
+            upPressed = false;
+        } 
+        // A 키를 뗐을 때
+        else if (code == KeyEvent.VK_A) {
+            leftPressed = false;
+        } 
+        // S 키를 뗐을 때
+        else if (code == KeyEvent.VK_S) {
+            downPressed = false;
+        } 
+        // D 키를 뗐을 때
+        else if (code == KeyEvent.VK_D) {
+            rightPressed = false;
+        } 
+        // Space 키를 뗐을 때
+        else if (code == KeyEvent.VK_SPACE) {
+            spacePressed = false;
+        } 
+        // Enter 키를 뗐을 때
+        else if (code == KeyEvent.VK_ENTER) {
+            enterPressed = false;
+        }
+    }
+
+    // 키를 타이핑할 때의 이벤트 처리
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // 이 메서드는 사용 X
+    }
+}
+

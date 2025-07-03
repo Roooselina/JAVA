@@ -1,0 +1,148 @@
+package library;
+import java.util.Scanner;
+
+class Dog {
+
+	private String name;
+
+	private int age;
+
+	private String color;
+
+	static int num;
+
+	public Dog(String name, int age, String color) {
+
+		super();
+
+		this.name = name;
+
+		this.age = age;
+
+		this.color = color;
+
+		num++;
+
+	}
+
+	void setname(String na) {
+
+		name = na;
+
+	}
+
+	String getname() {
+
+		return name;
+
+	}
+
+	void setage(int ag) {
+
+		age = ag;
+
+	}
+
+	int getage() {
+
+		return age;
+
+	}
+
+	void setcolor(String col) {
+
+		color = col;
+
+	}
+
+	String getcolor() {
+
+		return color;
+
+	}
+
+	void num() {
+
+		System.out.println("현재까지 생성된 강아지의 수: " + num);
+
+	}
+
+}
+
+class Witch {
+
+	void younger(Dog obj) {
+
+		obj.setage(obj.getage() - 5);
+
+	}
+
+}
+
+public class Library {
+
+	public static void main(String[] args) {
+
+		// TODO Auto-generated method stub
+
+		String name, color;
+
+		int age;
+
+		Dog dog1, dog2, dog3;
+
+		Witch witch;
+
+		witch = new Witch();
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("강아지의 설정을 입력하세요: ");
+
+		name = sc.next();
+
+		age = sc.nextInt();
+
+		color = sc.next();
+
+		dog1 = new Dog(name, age, color);
+
+		System.out.print("강아지의 설정을 입력하세요: ");
+
+		name = sc.next();
+
+		age = sc.nextInt();
+
+		color = sc.next();
+
+		dog2 = new Dog(name, age, color);
+
+		System.out.print("강아지의 설정을 입력하세요: ");
+
+		name = sc.next();
+
+		age = sc.nextInt();
+
+		color = sc.next();
+
+		dog3 = new Dog(name, age, color);
+
+		witch.younger(dog1);
+
+		witch.younger(dog2);
+
+		witch.younger(dog3);
+
+		System.out.println("강아지 #1 = " + dog1.getname() + " " + dog1.getage() + " " + dog1.getcolor());
+
+		System.out.println("강아지 #2 = " + dog2.getname() + " " + dog2.getage() + " " + dog2.getcolor());
+
+		System.out.println("강아지 #3 = " + dog3.getname() + " " + dog3.getage() + " " + dog3.getcolor());
+		
+		System.out.println("현재까지 생성된 강아지의 수 = " +Dog.num );
+
+		dog1.num();
+
+	}
+
+}

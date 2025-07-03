@@ -1,0 +1,21 @@
+package week12_03;
+
+import javax.swing.JFrame;
+
+class myFrame extends JFrame{
+	myFrame(){
+		this.setTitle("Simple Paint");
+		this.setSize(400,300);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+}
+
+public class main {
+
+	public static void main(String[] args) {
+		myFrame m = new myFrame();
+
+	}
+
+}

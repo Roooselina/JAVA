@@ -1,0 +1,65 @@
+package main;
+
+import java.awt.Rectangle;
+
+public class EventHandler {
+    GamePanel gp;
+    Rectangle eventRect;
+    int eventRectDefaultX, eventRectDefaultY;
+
+    public EventHandler(GamePanel gp) {
+        this.gp = gp;
+
+        eventRect = new Rectangle();
+        eventRect.x = 23;
+        eventRect.y = 23;
+        eventRect.width = 2;
+        eventRect.height = 2;
+
+        eventRectDefaultX = eventRect.x;
+        eventRectDefaultY = eventRect.y;
+    }
+
+    public void checkEvent() {
+        // 이벤트 위치를 확인합니다.
+        if (hit(2, 1, "any")) {
+            System.out.println(1111);
+            gp.player.speed += 3;
+        }
+    }
+
+    public boolean hit(int eventCol, int eventRow, String reqDirection) {
+        boolean hit = false;
+
+        // 플레이어의 solidArea 위치를 월드 좌표로 변환합니다.
+        gp.player.solidArea.x = gp.player.worldX + gp.player.solidAreaDefaultX;
+        gp.player.solidArea.y = gp.player.worldY + gp.player.solidAreaDefaultY;
+
+        // 이벤트 사각형의 위치를 월드 좌표로 변환합니다.
+        eventRect.x = eventCol * gp.getOrigianlCharacterSize() + eventRectDefaultX;
+        eventRect.y = eventRow * gp.getOrigianlCharacterSize() + eventRectDefaultY;
+
+        // 충돌 여부를 확인합니다.
+        if (gp.player.solidArea.intersects(eventRect)) {
+            if (gp.player.direction.contentEquals(reqDirection) || reqDirection.contentEquals("any")) {
+                hit = true;
+            }
+        }
+
+        // 플레이어와 이벤트 사각형의 위치를 복원합니다.
+        gp.player.solidArea.x = gp.player.solidAreaDefaultX;
+        gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+        eventRect.x = eventRectDefaultX;
+        eventRect.y = eventRectDefaultY;
+
+        return hit;
+    }
+
+    public void damagePit(int gameState) {
+        gp.gameState = gameState;
+        gp.ui.currentDialogue = "You fall into a pit!";
+        gp.player.life -= 1;
+    }
+}
+
+

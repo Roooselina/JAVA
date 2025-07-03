@@ -1,0 +1,30 @@
+package 시험;
+
+import java.util.Iterator;
+
+class CardDeck implements Iterator<String> {
+    String[] card = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Queen", "King", "Joker", "ACE"};
+    int index = 0;
+
+    @Override
+    public boolean hasNext() {
+        return index < card.length;
+    }
+
+    @Override
+    public String next() {
+        if (!hasNext()) {
+            throw new IllegalStateException("더 이상 카드가 없습니다.");
+        }
+        return card[index++];
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        CardDeck cardDeck = new CardDeck();
+        while (cardDeck.hasNext()) {
+            System.out.println(cardDeck.next());
+        }
+    }
+}

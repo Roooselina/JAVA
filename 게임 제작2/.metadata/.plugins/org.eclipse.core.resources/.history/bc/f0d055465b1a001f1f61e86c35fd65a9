@@ -1,0 +1,10 @@
+package main;
+
+import javax.swing.JPanel;
+
+public class ItemPanel extends JPanel{
+	final int maxScreenCol = 25; // 화면의 최대 열 수
+	final int maxScreenRow = 25; // 화면의 최대 행 수
+	
+	
+}

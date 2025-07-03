@@ -1,0 +1,114 @@
+package math2;
+
+interface Queue {
+	void enqueue(int item);
+
+	int dequeue();
+
+	boolean isEmpty();
+}
+
+class MyQueue implements Queue {
+	private int MaxSize;
+	private int[] queueArray;
+	private int front;
+	private int rear;
+	private int currentSize;
+
+	public MyQueue() {
+		MaxSize = 5;
+		currentSize = 0;
+		front = 0;
+		rear = 0;
+		queueArray = new int[MaxSize];
+	}
+
+	public int getFront() {
+		return front;
+	}
+
+	public void setFront(int front) {
+		this.front = front;
+	}
+
+	public int getRear() {
+		return rear;
+	}
+
+	public void setRear(int rear) {
+		this.rear = rear;
+	}
+
+	@Override
+	public void enqueue(int item) {
+		if (isfull() == false) {
+			rear = (rear + 1 + MaxSize) % MaxSize;
+			queueArray[rear] = item;
+			currentSize++;
+		} else
+			System.out.println("큐가 찼습니다.");
+	}
+
+	@Override
+	public int dequeue() {
+		if (isEmpty() == false) {
+			front = (front + 1 + MaxSize) % MaxSize;
+			currentSize--;
+			return queueArray[(front + MaxSize) % MaxSize];
+		} else {
+			System.out.println("큐가 비었습니다.");
+			return -1;
+		}
+	}
+
+	@Override
+	public boolean isEmpty() {
+		if (rear == front)
+			return true;
+		else {
+			return false;
+		}
+
+	}
+
+	boolean isfull() {
+		if ((rear + 1 + MaxSize) % MaxSize == front)
+			return true;
+		else {
+			return false;
+		}
+	}
+}
+
+public class QueueTest {
+
+	public static void main(String[] args) {
+		MyQueue q = new MyQueue();
+		int i = 1;
+		do {
+			q.enqueue(i);
+			System.out.println("rear: " + q.getRear() + "\tfront: " + q.getFront());
+			i++;
+		} while (i < 5);
+
+		System.out.println("\nVal: " + q.dequeue() + "\trear: " + q.getRear() + "\tfront: " + q.getFront());
+		System.out.println("Val: " + q.dequeue() + "\trear: " + q.getRear() + "\tfront: " + q.getFront());
+		System.out.println("Val: " + q.dequeue() + "\trear: " + q.getRear() + "\tfront: " + q.getFront());
+		System.out.println("\n");
+
+		i = 1;
+
+		do {
+			System.out.println("rear: " + q.getRear() + "\tfront: " + q.getFront());
+			q.enqueue(i);
+			i++;
+		} while (i < 5);
+
+		System.out.println("\n");
+		System.out.println("rear: " + q.getRear() + "\tfront: " + q.getFront() + "\tVal: " + q.dequeue());
+		System.out.println("rear: " + q.getRear() + "\tfront: " + q.getFront() + "\tVal: " + q.dequeue());
+		System.out.println("rear: " + q.getRear() + "\tfront: " + q.getFront() + "\tVal: " + q.dequeue());
+
+	}
+
+}

@@ -1,0 +1,28 @@
+package 교과서;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+
+class MyClass extends JFrame {
+	JLabel score, average;
+	JTextField sc, av;
+	JButton input, calav;
+	
+	MyClass(){
+		this.setSize(300,200);
+		
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+	
+}
+
+public class Main extends JFrame {
+	public static void main(String[] args) {
+		MyClass N = new MyClass();
+	}
+}

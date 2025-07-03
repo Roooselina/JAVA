@@ -1,0 +1,16 @@
+package main;
+
+import Entity.CommonEntity;
+
+public class CollisionChecker {
+	GamePanel gp;
+	
+	public CollisionChecker(GamePanel gp) {
+		this.gp = gp;
+	}
+	
+	public void CheckTile(CommonEntity entity) {
+		int entityLeftWorldX = entity.worldX+entity.solidArea.x;
+		int entityRightWorldY = entity.worldY+entity.solidArea.x;
+	}
+}

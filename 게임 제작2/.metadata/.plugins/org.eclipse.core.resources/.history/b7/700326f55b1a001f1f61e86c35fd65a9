@@ -1,0 +1,30 @@
+package main;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
+public class GameScreen {
+    static JFrame window;
+
+    public static void main(String[] args) {
+        window = new JFrame();
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        window.setTitle("TIME OF EBIR : LAND OF TWILIGHT");
+
+        GamePanel gamePanel = new GamePanel();
+        window.add(gamePanel);
+
+        window.pack();
+
+        window.setLocationRelativeTo(window);
+        window.setVisible(true);
+
+        gamePanel.setupGame();
+        gamePanel.startGameThread();
+    }
+
+    public static void moveWindow(int x, int y) {
+        window.setLocation(x, y);
+    }
+}

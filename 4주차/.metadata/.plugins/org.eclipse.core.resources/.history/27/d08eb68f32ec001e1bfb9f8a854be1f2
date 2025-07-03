@@ -1,0 +1,87 @@
+package library;
+
+import java.util.ArrayList;
+
+
+
+//Book 클래스: 도서 정보를 나타내는 클래스
+
+class Book {
+
+	private String title;
+	private String author;
+	private String publisher;
+	private int price;
+
+}
+
+
+// Library 클래스: 도서를 관리하는 클래스
+class Library {
+	private ArrayList<Book> books;
+	// 생성자
+
+	public void BookManagement()
+
+	{this.books = new ArrayList<>();}
+
+
+
+	// 도서 추가
+
+	public void addBook(Book book) {
+		books.add(book);
+	}
+
+
+	// 도서 삭제
+
+	public void removeBook(String title) {
+
+		for (int i = 0; i < books.size(); i++) {
+
+			if (books.get(i).getTitle().equals(title)) {
+
+				System.out.println("도서 삭제: " + books.get(i).getTitle());
+
+				books.remove(i);
+
+				return;
+
+			}
+
+		}
+
+		System.out.println("해당 도서가 존재하지 않습니다.");
+
+	}
+
+
+
+	// 도서 검색
+
+	public void searchBook(String title) {
+
+		for (Book book : books) {
+
+		}
+
+	}
+
+}
+
+
+public class LibraryManage {
+	public static void main(String[] args) {
+
+		// TODO Auto-generated method stub
+		System.out.println("순천향 도서관 서비스에 접속합니다. 원하는 서비스를 선택해 주십시오");
+		System.out.println("1. 도서 추가 2. 도서 삭제 3. 도서 검색");
+		
+
+	}
+
+
+
+}
+

@@ -1,0 +1,722 @@
+package game;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
+
+class item_list{
+    String itemName;
+    int num;
+    int hp;
+
+    public item_list(String itemName, int num, int hp) {
+        this.itemName = itemName;
+        this.num = num;
+        this.hp = hp;
+    }
+}
+
+
+class main_character {
+	
+    public main_character() {
+        initializeHPItems();
+        initializeStoryItems();
+    }
+    
+    
+    //게임 캐릭터 설정
+	private static String name;
+	private static String job;
+
+	private static int HP = 100000000;
+	private static int MP = 100;
+	private static int attack = 50;
+	private static int level = 10;
+	
+	
+	static int attack_up = 50;
+	static int level_up = 0;
+	private static int next_level = 0;
+	
+	
+	static int[] level_list = { 50, 70, 90, 110, 130, 150 };
+	static int[] HP_list = { 200, 300, 400, 500, 550, 600 };
+	static int[] MP_list = { 150, 200, 250, 300, 350, 400 };
+	
+	
+	static int monsterkill = 0;
+	private static int money = 100;
+	
+    static Map<String, item_list> HP_item;
+    static Map<String, item_list> Story_item;
+
+    private void initializeHPItems() {
+        HP_item = new HashMap<>();
+        HP_item.put("핫도그", new item_list("핫도그", 0, 10));
+        HP_item.put("맥주", new item_list("맥주", 0, 10));
+        HP_item.put("감자튀김", new item_list("감자튀김", 0, 10));
+        HP_item.put("하급 포션", new item_list("하급 포션", 0, 20));
+    }
+    
+    private void initializeStoryItems() {
+        Story_item = new HashMap<>();
+        Story_item.put("돌검", new item_list("돌검", 0, 20));
+        Story_item.put("가죽 갑옷", new item_list("가죽 갑옷", 0, 20));
+        Story_item.put("성수", new item_list("성수", 0, 0));
+        Story_item.put("성검", new item_list("성검", 0, 100));
+    }
+
+    
+
+	public static int forest = 0;
+	public static int town = 0;
+	public static int temper = 0;
+	public static int finalforest = 0;
+
+	static void setting(String na, String job_name) {
+		setName(na);
+		setJob(job_name);
+	}
+
+	public static String getName() {
+		return name;
+	}
+
+	public static void setName(String name) {
+		main_character.name = name;
+	}
+	
+	public static int getLevel() {
+		return level;
+	}
+
+	public static void setLevel(int level) {
+		main_character.level = level;
+	}
+
+	public static String getJob() {
+		return job;
+	}
+
+	public static void setJob(String job) {
+		main_character.job = job;
+	}
+
+	public static int getMoney() {
+		return money;
+	}
+
+	public static void setMoney(int mon) {
+		money = mon;
+	}
+
+	public static void levelup(int mp) {
+		if (level_up >= level_list[next_level]) {
+			resetMP();
+			setHP(HP_list[next_level]);
+			next_level += 1;
+			level += 1;
+			setAttack(getAttack() + attack_up);
+			
+			System.out.println("레벨이 증가하였습니다!");
+			System.out.println("LEVEL : "+level);
+			System.out.println("HP : "+ HP);
+			System.out.println("MP : "+MP);
+			System.out.println("ATTACK : "+attack);
+		} else {
+			setHP(mp);
+		}
+	}
+
+	public static int getMP() {
+		return MP;
+	}
+
+	public static void setMP(int mP) {
+		MP += mP;
+	}
+
+	public static void resetMP() {
+		MP = 0;
+	}
+
+	public static int getHP() {
+		return HP;
+	}
+
+	public static void setHP(int hP) {
+		HP += hP;
+	}
+	
+	public static void setnewHP(int hp) {
+		HP= hp;
+	}
+
+	public static int getAttack() {
+		return attack;
+	}
+
+	public static void setAttack(int attack) {
+		main_character.attack += attack;
+	}
+	
+	public static int getMonsterkill() {
+		return monsterkill;
+	}
+
+	public static void setMonsterkill(int monsterkill) {
+		main_character.monsterkill = monsterkill;
+	}
+
+}
+
+class Story {
+
+	Scanner sc = new Scanner(System.in);
+	int input = 0;
+
+	int printScript() {
+		System.out.println("\n=====================================");
+		System.out.print("\n당신의 행동을 선택해주세요: ");
+		input = sc.nextInt();	
+		
+		return input;
+	}
+
+	void story_1() {
+
+		Script.InfoGameStart();
+		input = printScript();
+
+		if (input == 1)
+			town();
+		else if (input == 2) {
+			Script.DenyGameStart();
+			story_end();
+		}
+	}
+
+	void town() {
+
+		Script.InfoTown();
+		System.out.print("\n");
+		if (main_character.forest == 1)
+			System.out.print("5. 숲 속 방문\n");
+		input=printScript();
+
+		if (input == 1)
+			pup();
+		else if (input == 2)
+			board();
+		else if (input == 3)
+			store();
+		else if (input == 4)
+			visitTop();
+		else if (input == 5) {
+			System.out.println("당신은 마음을 굳게 먹고 숲 속으로 들어갑니다.");
+			forest(1);
+		}
+	}
+
+	void visitTop() {
+		Script.visit_top();
+		Script.OptionsTownVisit();
+		input=printScript();
+
+		if (input == 1) {
+
+			String name;
+			String job;
+
+			Script.AcceptTown();
+
+			System.out.print("성함을 입력해주십시오: ");
+			name = sc.next();
+			String[] joblist = { "검사", "마법사", "버서커" };
+			System.out.print("직업을 선택해주십시오[1:검사 | 2:마법사 | 3: 버서커]: ");
+			job = joblist[sc.nextInt() - 1];
+
+			main_character.setting(name, job);
+
+			System.out.println("설정된 캐릭터 정보:");
+			System.out.println("이름: " + main_character.getName());
+			System.out.println("직업: " + main_character.getJob() + "\n\n정보가 등록되었습니다.\n");
+
+			System.out.println("'고맙소! 그럼 무운을 빌겠네!'");
+
+		} else if (input == 2) {
+			System.out.println("'어쩔 수 없지. 다음에 기회가 되면 다시 방문해 주게나'\n");
+
+		}
+
+		System.out.println("이장이 당신을 배웅합니다...\n당신은 마을로 되돌아갑니다.\n");
+		town();
+
+	}
+
+
+	void board() {
+		 System.out.println("-------------------------------------------\n");
+	    String[] request = { 
+	        "의뢰: 괴수 사냥\n보수:50골드\n의뢰 내용: 괴수 10마리 사냥하기",
+	        "의뢰: 숲 속 조사하기\n보수:10골드\n의뢰 내용: 숲에서 잃어버린 물건 찾아오기", 
+	        "의뢰: 괴수 사냥\n보수:100골드\n의뢰 내용: 괴수 20마리 사냥하기",
+	        "의뢰: 물건 찾기\n보수:2골드\n의뢰 내용: 숲에서 잃어버린 인형 찾기"
+	    };
+
+	    System.out.println("당신은 게시판을 살펴본다. 의뢰 몇 개가 붙어있다!\n");
+	    
+	    Random rand = new Random();
+	    for (int i = 0; i < request.length - 2; i++) {
+	        int ran = rand.nextInt(request.length);
+	        System.out.println(request[ran]);
+	        System.out.println();
+	    }
+	    System.out.println("-------------------------------------------\n");
+	    
+	    System.out.println("특별히 볼 건 없는 것 같다....\n");
+	    town();
+	}
+
+	void pup() {
+		Script.InfoPub();
+		do {
+			System.out.println("'필요한 것이라도 있소?'\n");
+			System.out.println("1. 정보를 묻는다 2. 음식을 산다 3. 가게를 나간다\n");
+			input = printScript();
+
+			if (input == 1) {
+				Script.Pubforest();
+				main_character.forest = 1;
+			} else if (input == 2) {
+
+				String[] storeItem = { "핫도그", "맥주", "감자 튀김" };
+				System.out.println("무엇을 구매하시겠습니까?\n");
+				System.out.println("1.핫도그 2.맥주");
+				System.out.println("=====================================");
+				System.out.println("소지금: " + main_character.getMoney());
+
+				input = printScript();
+				String itemName = storeItem[input - 1];
+				System.out.println("당신은 " + itemName + "를 하나 구매했습니다.");
+				main_character.setMoney(main_character.getMoney() - 10);
+				item_list item = main_character.HP_item.get(itemName);
+				item.num += 1;
+			}
+
+			else if (input == 3) {
+				System.out.println("당신은 마을로 돌아가기로 마음먹었다.\n");
+				town();
+
+			}
+		} while (input != 3);
+	}
+
+	void store() {
+		Script.InfoStore();
+
+		do {
+
+			System.out.println("1.하급 포션 2.돌검 3.가죽 갑옷 4.돌아 가기\n");
+			System.out.println("=====================================");
+			System.out.println("소지금: " + main_character.getMoney());
+			input = printScript();
+
+			String[] storeitem = { "하급 포션", "돌검", "가죽 갑옷" };
+			String itemName = storeitem[input - 1];
+
+			if (input == 1) {
+				item_list item = main_character.HP_item.get(itemName);
+				item.num += 1;
+				System.out.println("당신은 " + itemName + "를 하나 구매했습니다.");
+			} else {
+				item_list item = main_character.Story_item.get(itemName);
+				if (item.num >= 1)
+					System.out.println("이미 구매한 물품입니다.");
+				else {
+					System.out.println("당신은 " + itemName + "를 하나 구매했습니다.");
+					item.num += 1;
+					main_character.setAttack(20);
+					main_character.setHP(20);
+					main_character.setMoney(main_character.getMoney() - 20);
+				}
+
+			}
+
+		} while (input != 4);
+		System.out.println("\n당신은 이제 주점에서 볼 일을 다 본 것 같다.");
+		System.out.println("당신은 마을로 돌아간다...\n");
+		town();
+	}
+
+	void forest(int n) {
+		int num = 3;
+		int place = n;
+
+		do {
+			if (place % 2 == 0 && place != 0) {
+				n += 1;
+			}
+			if (place == 0) {
+				System.out.println("당신은 숲 속으로 들어왔다...");
+				System.out.println("무언가 불길한 기운이 드는 숲이다.\n");
+				System.out.println("1. 전진하기 2. 마을로 돌아가기\n");
+				input = printScript();
+				if (input == 1) {
+					place += 1;
+					forestmonster(num, place);
+				} else if (input == 2) {
+					System.out.println("당신은 마을로 돌아가기로 마음먹었다\n");
+					town();
+				}
+			} else {
+				System.out.println("숲" + place + 1 + "\n");
+				System.out.println("1. 전진하기 2. 돌아가기\n");
+				input = printScript();
+				if (input == 1) {
+					place += 1;
+					forestmonster(num, place);
+				} else if (input == 2) {
+					place -= 1;
+				}
+			}
+
+		} while (place != 12);
+
+		Script.OptionsToTemper();
+
+		if (main_character.finalforest == 0) {
+			System.out.println("1. 숲으로 돌아간다 2. 갈림길로 들어선다");
+			input = printScript();
+			if (input == 1) {
+				System.out.println("당신은 숲으로 돌아가기로 마음 먹었다...");
+				forest(11);
+			}
+			if (input == 2) {
+				System.out.println("당신은 갈림길로 들어섰다...");
+				temper();
+			}
+		} else {
+			System.out.println("당신은 숲으로 돌아왔다. 당신은 아까는 발견하지 못했던 새로운 길을 발견했다.");
+			System.out.println("당신은 이곳에서 불길한 기운을 느꼈다.");
+			System.out.println("당신은 이곳이 마지막 모험 장소가 될 것임을 예감했다...\n");
+
+			System.out.println("숲으로 들어가시겠습니까?");
+			System.out.println("1. 숲으로 들어간다 2. 다시 돌아간다");
+			input=printScript();
+			if (input == 1) {
+				System.out.println("당신은 굳은 결심을 했다.");
+				System.out.println("당신은 숲 속으로 들어갔다...");
+				finalstage();
+			} else {
+				System.out.println("당신은 조금 더 준비가 필요함을 느꼈다.");
+				System.out.println("당신은 숲으로 돌아가기로 결심하고 발걸음을 돌렸다.");
+				forest(11);
+			}
+		}
+
+	}
+
+	void finalstage() {
+		System.out.println("\n\n\n당신은 숲 속으로 들어갔다. 거친 숲을 헤치고 당신은 계속해서 나아갔다...");
+		System.out.println("\n...\n");
+		System.out.println("당신은 마지막 적을 마주했다...");
+
+	}
+
+	void devilloard() {
+	    System.out.println("=============< LAST QUEST >=========\n");
+	    System.out.println("당신은 이 사건의 원흉을 마주했습니다. 적을 쓰러뜨리고 마을의 평화를 되찾으십시오");
+	    
+	    int[] enemy = {500, 50}; // 적의 초기 체력과 공격력
+	    int playerHP = main_character.getHP(); // 플레이어의 초기 체력
+	    
+	    do {
+	        System.out.println("1. 공격한다\t2. 아이템 사용");
+			input=printScript();
+
+	        if (input == 1) {
+	            // 플레이어가 공격하는 경우
+	            int playerAttack = main_character.getAttack();
+	            enemy[0] -= playerAttack;
+	            System.out.println("적에게 " + playerAttack + "의 피해를 입혔습니다.");
+	            System.out.println("남은 적의 체력: " + enemy[0]);
+	            
+	        } else if (input == 2) {
+	            // 아이템을 사용하는 경우
+	            System.out.println("=============< ITEM LIST >=========\n");
+	            int i = 1;
+	            String[] itemlist = new String[main_character.HP_item.size()];
+	            for (item_list item : main_character.HP_item.values()) {
+	                System.out.println(i + " : " + item.itemName + " hp " + item.hp + " 회복");
+	                i++;
+	                itemlist[i]=item.itemName;
+	            }
+	    		input=(printScript()-1);
+	    		
+	            playerHP += main_character.HP_item.get(itemlist[input]).hp;
+	            System.out.println("\n당신은 " + main_character.HP_item.get(itemlist[input]).hp + "체력을 회복했다");
+	        }
+	        
+	        // 적이 플레이어를 공격하는 경우
+	        if (enemy[0] > 0) {
+	            int monsterAttack = enemy[1]; // 적의 공격력
+	            playerHP -= monsterAttack;
+	            System.out.println("플레이어가 " + monsterAttack + "의 피해를 입었습니다.");
+	            System.out.println("남은 플레이어의 체력: " + playerHP);
+	        }
+	        
+			System.out.println("1. 공격한다	2. 아이템 사용	3. 도망친다");
+			input=printScript();
+	       
+	    } while (playerHP > 0 && enemy[0] > 0);
+	    
+		GameResult result = new GameResult();
+		if (playerHP <= 0) {
+			result.defeat();
+		} else {
+			Script.Result();
+			
+		}
+	}
+
+
+	void temper() {
+		int num = 0;
+		int fianlstage = 0;
+
+		Script.InfoTemper();
+		do {
+			Script.OptionTemper();
+			input=printScript();
+
+			if (input == 1) {
+				fianlstage = Script.InfoInsideTemper(num);
+				if (fianlstage == 1) {
+					
+					item_list sword = main_character.Story_item.get("성검");
+					sword.num=1;
+
+					System.out.println("당신의 무기를 성검으로 교체하시겠습니까?");
+					System.out.println("1. 예	2.아니오");
+					
+					input=printScript();
+					if (input == 1) {
+						System.out.println("당신은 성검으로 무기를 교체했다.");
+						main_character.setAttack(100);
+						System.out.println("당신의 공격력이 100 증가했다.");
+					}
+				}
+				input=printScript();
+
+				if (input == 1) {
+					Script.InfoInsideTemper(num);
+					input=printScript();
+
+					if (input == 1) {
+						
+						num = Script.InfoHolyGrail(main_character.temper,  main_character.Story_item.get("성수").num);
+						if (num == 1)
+							main_character.temper = 1;
+					} else if (input == 2)
+						Script.InfoTorch();
+					else
+						Script.InfoOutTemper();
+				} else {
+					System.out.println("당신은 신전을 떠나 숲으로 다시 돌아갔다...");
+					forest(12);
+				}
+
+			} else {
+				System.out.println("당신은 신전을 떠나 숲으로 다시 돌아갔다...");
+				forest(12);
+			}
+		} while (true);
+	}
+
+	void forestmonster(int n, int place) {
+	    HashMap<String, Monster> monsterMap = new HashMap<>();
+	    monsterMap.put("슬라임", new Monster("슬라임", 5, 10, 10));
+	    monsterMap.put("미니 골렘", new Monster("미니 골렘", 10, 20, 12));
+	    monsterMap.put("고블린", new Monster("고블린", 8, 16, 15));
+	    monsterMap.put("해골 전사", new Monster("해골 전사", 14, 23, 20));
+	    monsterMap.put("트롤", new Monster("트롤", 18, 30, 25));
+	    monsterMap.put("미노타우르스", new Monster("미노타우르스", 20, 35, 30));
+
+	    Random rand = new Random();
+	    int ran = rand.nextInt(n); // 0부터 n까지의 랜덤한 숫자 생성
+	    if (ran != 2) {
+	        int ranmon = rand.nextInt(3) + n;
+	        String[] monsters = monsterMap.keySet().toArray(new String[0]);
+	        String randomMonsterName = monsters[ranmon];
+	        System.out.println("앗! " + randomMonsterName + "이 튀어나왔다!\n");
+
+	        // 플레이어와 몬스터의 초기 체력 설정
+	        int playerHP = main_character.getHP();
+
+	        Monster randomMonster = monsterMap.get(randomMonsterName);
+	        int monsterHP = randomMonster.getHP();
+
+	        System.out.println("1. 공격한다\t2. 아이템 사용\t3. 도망친다");
+			input=printScript();
+	        Random rand1 = new Random();
+	        boolean playerTurn = rand1.nextBoolean(); // 무작위로 플레이어의 선공 결정
+
+	        while (playerHP > 0 && monsterHP > 0) {
+	            if (input == 1) {
+	                if (playerTurn) {
+	                    // 플레이어의 차례
+	                    System.out.println("플레이어의 차례입니다.");
+	                    Monster monster = monsterMap.get(randomMonsterName);
+
+	                    // 몬스터에게 공격
+	                    monsterHP -= monster.getAttack();
+	                    System.out.println(randomMonsterName + "에게 " + monster.getAttack() + "의 피해를 입혔습니다.");
+	                    System.out.println("남은 몬스터의 체력: " + monsterHP);
+	                } else {
+	                    // 몬스터의 차례
+	                    System.out.println("몬스터의 차례입니다.");
+	                    int playerAttack = main_character.getAttack();
+
+	                    // 플레이어에게 공격
+	                    playerHP -= playerAttack;
+	                    System.out.println("플레이어가 " + playerAttack + "의 피해를 입었습니다.");
+	                    System.out.println("남은 플레이어의 체력: " + playerHP);
+	                }
+	                
+	                playerTurn = !playerTurn; // 턴 변경
+	            } else if (input == 2) {
+	                // 아이템 사용
+	                System.out.println("=============< ITEM LIST >=========\n");
+	                String[] itemNames = main_character.HP_item.keySet().toArray(new String[0]);
+	                for (int i = 0; i < main_character.HP_item.size(); i++) {
+	                    System.out.println((i + 1) + " : " + main_character.HP_item.get(i).itemName + "hp "
+	                            + main_character.HP_item.get(i).hp + "회복");
+	                }
+	        		input=(printScript()-1);
+	                String itemName = itemNames[input];
+	                playerHP += main_character.HP_item.get(itemName).hp;
+	                System.out.println("\n당신은 " + main_character.HP_item.get(itemName).hp + "체력을 회복했다");
+	            } else if (input == 3) {
+	                System.out.println("당신은 도망쳤다...");
+	                forest(place); // 숲으로 이동
+	                break;
+	            }
+
+	            // 플레이어의 HP 업데이트
+	            main_character.setHP(playerHP);
+	            
+	            System.out.println("1. 공격한다\t2. 아이템 사용\t3. 도망친다");
+	    		input=printScript();
+	        }
+
+	        // 게임 종료 조건 확인
+	        if (playerHP <= 0) {
+	            System.out.println("플레이어가 사망하였습니다...");
+	            story_end();
+	        } else {
+	            int getMP = randomMonster.getMP();
+	            main_character.setMP(main_character.getMP() + getMP);
+	            System.out.println("당신은 " + getMP + "MP를 얻었습니다!");
+	            System.out.println("몬스터를 처치하였습니다!");
+	            GameResult.defeatMonster(randomMonsterName);
+	            main_character.monsterkill += 1;
+	            main_character.setnewHP(playerHP);
+	        }
+	    }
+	}
+
+
+	static void story_end() {
+		System.out.println("\n게임을 종료합니다.\n감사합니다.");
+		System.exit(0);
+
+	}
+
+	static class GameResult {
+		static void defeat() {
+			System.out.println("플레이어가 사망하였습니다...");
+			Story.story_end();
+		}
+
+		static void defeatMonster(String monsterName) {
+			System.out.println("몬스터를 처치하였습니다!");
+			System.out.println("당신은 " + monsterName + "를 처치했습니다.");
+
+			double ran = Math.random();
+
+			if (ran < 0.2 && main_character.temper == 1) {
+				System.out.println("당신은 성수를 얻었습니다.");
+				main_character.Story_item.get("성수").num = 1;
+			}
+
+		}
+	}
+
+	class Monster {
+		String name;
+		int attack;
+		int HP;
+		int MP;
+
+		public Monster(String name, int attack, int HP, int MP) {
+			this.name = name;
+			this.attack = attack;
+			this.HP = HP;
+			this.MP = MP;
+		}
+
+		public int getAttack() {
+			return attack;
+		}
+
+		public int getHP() {
+			return HP;
+		}
+
+		public int getMP() {
+			return MP;
+		}
+	}
+	
+	class END{
+		public void ENDING() {
+			System.out.println("축하합니다. 당신은 성공적으로 게임을 끝마치셨습니다.\n\n");
+			
+			System.out.println("============== < HISTORY > ==============");
+			System.out.println("Name : "+main_character.getName());
+			System.out.println("Class : "+main_character.getJob());
+			System.out.println("Level : "+ main_character.getLevel());
+			System.out.println("Money : "+ main_character.getMoney()+"증가");
+			System.out.println("아이템 목록 : ");
+			for (int i = 0; i<main_character.HP_item.size();i++) {
+				System.out.println((i+1) + " : " + main_character.HP_item.get(i).itemName +"x"+main_character.HP_item.get(i).num);
+			} 
+			System.out.println("몬스터 처리 횟수 : "+ main_character.getMonsterkill());
+		}
+	}
+
+	public class Game {
+
+		public static void main(String[] args) {
+			// TODO Auto-generated method stub
+			int start;
+			main_character mc;
+			mc = new main_character();
+			Scanner sc = new Scanner(System.in);
+			Story story;
+			story = new Story();
+
+			Script.MainScreen();
+			start = sc.nextInt();
+
+			if (start == 1)
+				story.story_1();
+
+			else if (start == 2)
+				story.story_end();
+		}
+	}
+}

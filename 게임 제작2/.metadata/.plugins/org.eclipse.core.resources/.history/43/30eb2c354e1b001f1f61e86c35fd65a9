@@ -1,0 +1,17 @@
+package main;
+
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+
+import Tile.Tile;
+
+
+public class SuperPlayerImg {
+	
+	BufferedImage playerImg[] = new BufferedImage();
+	
+	public SuperPlayerImg () {
+		playerImg[0] = ImageIO.read(getClass().getResourceAsStream("/playerImg/돌바닥.png"));
+	}
+}

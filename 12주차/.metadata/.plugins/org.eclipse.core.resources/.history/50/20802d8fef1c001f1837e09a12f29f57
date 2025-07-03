@@ -1,0 +1,86 @@
+package Menu;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+class MyFrame extends JFrame {
+	JTextField text;
+	String word;
+
+	MyFrame() {
+		this.setTitle("Menu Example");
+		JPanel panel = new JPanel();
+		this.setSize(400,600);
+		word = "";
+		
+		text = new JTextField();
+		text.setSize(400, 300);
+		panel.add(panel);
+
+		// JMenuBar 생성
+		JMenuBar menuBar = new JMenuBar();
+		
+		// 첫 번째 메뉴 생성
+		JMenu fileMenu = new JMenu("파일");
+		menuBar.add(fileMenu);
+		
+		// File 메뉴의 서브 메뉴 생성
+		JMenu open = new JMenu("열기");
+		open.addActionListener(e->{
+			text.setText(open.getName());
+			
+		});
+		fileMenu.add(open);
+		
+		// 서브 메뉴 항목 추가
+		JMenuItem projectItem = new JMenuItem("저장하기");
+		projectItem.addActionListener(e->{
+			text.setText(projectItem.getName());
+			
+		});
+		JMenuItem moduleItem = new JMenuItem("다른이름으로 저장하기");
+		moduleItem.addActionListener(e->{
+			text.setText(moduleItem.getName());
+			
+		});
+		fileMenu.add(projectItem);
+		fileMenu.add(moduleItem);
+		
+		// File 메뉴 항목 추가
+		JMenuItem print = new JMenuItem("출력");
+		print.addActionListener(e->{
+			text.setText(print.getName());
+			
+		});
+		JMenuItem printerPrint = new JMenuItem("프린터로 출력하기");
+		printerPrint.addActionListener(e->{
+			text.setText(printerPrint.getName());
+			
+		});
+		JMenuItem pdfPrint = new JMenuItem("pdf로 출력하기");
+		pdfPrint.addActionListener(e->{
+			text.setText(pdfPrint.getName());
+			
+		});
+		print.add(printerPrint);
+		print.add(pdfPrint);
+
+		this.add(panel);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+
+	}
+}
+
+public class menu {
+
+	public static void main(String[] args) {
+		MyFrame f = new MyFrame();
+
+	}
+
+}

@@ -1,0 +1,45 @@
+package 교과서;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+
+class MyClass extends JFrame {
+	JLabel score, average;
+	JTextField sc, av;
+	JButton input, calav;
+	
+	MyClass(){
+		this.setSize(500,300);
+		this.setLayout(new BorderLayout());
+		JPanel panel = new JPanel();
+		this.add(panel);
+		
+		score = new JLabel("성적         ");
+		sc = new JTextField(20);
+		panel.add(score, BorderLayout.NORTH);
+		panel.add(sc, BorderLayout.NORTH);
+		
+		input = new JButton("입력");
+		calav = new JButton("평균계산");
+		panel.add(input, BorderLayout.CENTER);
+		panel.add(calav, BorderLayout.CENTER);
+		
+		
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+	
+}
+
+public class Main extends JFrame {
+	public static void main(String[] args) {
+		MyClass N = new MyClass();
+	}
+}

@@ -1,0 +1,36 @@
+package 교과서_8_4;
+
+import java.util.Random;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+class myFrame extends JFrame{
+	Random random;
+	
+	myFrame(){
+		random = new Random();
+		setTitle("BMI 계산기");
+		setSize(600,300);
+		
+		this.setLayout(null);
+		for (int i=0;i<5;i++) {
+			int ran = random.nextInt(10);
+			int x = random.nextInt(550)+20;
+			int y = random.nextInt(550)+20;
+			JLabel label = new JLabel(ran+"");
+			label.setLocation(x, y);
+		}
+
+		
+		this.setLocationRelativeTo(null);
+		setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+}
+
+public class MAIN {
+	public static void main(String args[]) {
+		myFrame m = new myFrame();
+	}
+}

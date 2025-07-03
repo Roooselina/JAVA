@@ -1,0 +1,157 @@
+package main;
+
+import java.awt.Rectangle;
+
+import Entity.CommonEntity;
+
+public class CollisionChecker {
+    GamePanel gp;
+
+    public CollisionChecker(GamePanel gp) {
+        this.gp = gp;
+    }
+
+    public void CheckTile(CommonEntity entity) {
+        Rectangle entitySolidArea = getEntitySolidArea(entity);
+
+        int entityLeftCol = entitySolidArea.x / gp.getOrigianlCharacterSize();
+        int entityRightCol = (entitySolidArea.x + entitySolidArea.width) / gp.getOrigianlCharacterSize();
+        int entityTopRow = entitySolidArea.y / gp.getOrigianlCharacterSize();
+        int entityBottomRow = (entitySolidArea.y + entitySolidArea.height) / gp.getOrigianlCharacterSize();
+
+        int maxCol = gp.tileM.mapTileNum[0].length;
+        int maxRow = gp.tileM.mapTileNum.length;
+
+        checkTileCollision(entity, entityLeftCol, entityRightCol, entityTopRow, entityBottomRow, maxCol, maxRow);
+    }
+
+    private Rectangle getEntitySolidArea(CommonEntity entity) {
+        return new Rectangle(entity.worldX + entity.solidArea.x, entity.worldY + entity.solidArea.y, entity.solidArea.width, entity.solidArea.height);
+    }
+
+    private void checkTileCollision(CommonEntity entity, int entityLeftCol, int entityRightCol, int entityTopRow, int entityBottomRow, int maxCol, int maxRow) {
+        int tileNum1, tileNum2;
+
+        switch (entity.direction) {
+            case "up":
+                entityTopRow = (entityTopRow - entity.speed) / gp.getOrigianlCharacterSize();
+                if (entityTopRow >= 0) {
+                    tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+                    tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+                    entity.collisionOn = gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision;
+                }
+                break;
+            case "down":
+                entityBottomRow = (entityBottomRow + entity.speed) / gp.getOrigianlCharacterSize();
+                if (entityBottomRow < maxRow) {
+                    tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+                    tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+                    entity.collisionOn = gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision;
+                }
+                break;
+            case "left":
+                entityLeftCol = (entityLeftCol - entity.speed) / gp.getOrigianlCharacterSize();
+                if (entityLeftCol >= 0) {
+                    tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+                    tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+                    entity.collisionOn = gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision;
+                }
+                break;
+            case "right":
+                entityRightCol = (entityRightCol + entity.speed) / gp.getOrigianlCharacterSize();
+                if (entityRightCol < maxCol) {
+                    tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+                    tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+                    entity.collisionOn = gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision;
+                }
+                break;
+        }
+    }
+
+    public int CheckObject(CommonEntity entity, boolean player) {
+        int index = 999;
+
+        for (int i = 0; i < gp.obj.length; i++) {
+            if (gp.obj[i] != null && gp.obj[i].collision) {
+                index = checkCollision(entity, gp.obj[i], player);
+                if (index != 999) break;
+            }
+        }
+
+        return index;
+    }
+
+    public int checkEntity(CommonEntity entity, CommonEntity[] target) {
+        int index = 999;
+
+        for (int i = 0; i < target.length; i++) {
+            if (target[i] != null && target[i].collisionOn) {
+                index = checkCollision(entity, target[i], true);
+                if (index != 999) break;
+            }
+        }
+
+        return index;
+    }
+
+    private int checkCollision(CommonEntity entity, CommonEntity target, boolean player) {
+        int index = 999;
+
+        setSolidAreas(entity, target);
+
+        moveSolidAreaByDirection(entity);
+
+        if (entity.solidArea.intersects(target.solidArea)) {
+            entity.collisionOn = true;
+            if (player) index = 0;
+        }
+
+        resetSolidAreas(entity, target);
+
+        return index;
+    }
+
+    private void setSolidAreas(CommonEntity entity, CommonEntity target) {
+        entity.solidArea.x = entity.worldX + entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.worldY + entity.solidAreaDefaultY;
+        target.solidArea.x = target.worldX + target.solidAreaDefaultX;
+        target.solidArea.y = target.worldY + target.solidAreaDefaultY;
+    }
+
+    private void moveSolidAreaByDirection(CommonEntity entity) {
+        switch (entity.direction) {
+            case "up":
+                entity.solidArea.y -= entity.speed;
+                break;
+            case "down":
+                entity.solidArea.y += entity.speed;
+                break;
+            case "left":
+                entity.solidArea.x -= entity.speed;
+                break;
+            case "right":
+                entity.solidArea.x += entity.speed;
+                break;
+        }
+    }
+
+    private void resetSolidAreas(CommonEntity entity, CommonEntity target) {
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;
+        target.solidArea.x = target.solidAreaDefaultX;
+        target.solidArea.y = target.solidAreaDefaultY;
+    }
+
+    public void checkPlayer(CommonEntity entity) {
+        if (gp.player.collisionOn) {
+            setSolidAreas(entity, gp.player);
+            moveSolidAreaByDirection(entity);
+
+            if (entity.solidArea.intersects(gp.player.solidArea)) {
+                entity.collisionOn = true;
+            }
+
+            resetSolidAreas(entity, gp.player);
+        }
+    }
+}

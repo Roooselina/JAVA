@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\Users\kuroc\OneDrive\바탕 화면\과제\JAVA\게임 제작\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+3413270776.index
+255579891.index

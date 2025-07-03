@@ -1,0 +1,76 @@
+package Menu;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+class MyFrame extends JFrame {
+	JTextField text;
+	String word;
+
+	MyFrame() {
+		this.setTitle("Menu Example");
+		JPanel panel = new JPanel();
+		word = "";
+		
+		text = new JTextField();
+		text.setSize(400, 300);
+		panel.add(panel);
+
+		// JMenuBar 생성
+		JMenuBar menuBar = new JMenuBar();
+		
+		// 첫 번째 메뉴 생성
+		JMenu fileMenu = new JMenu("File");
+		menuBar.add(fileMenu);
+		
+		// File 메뉴의 서브 메뉴 생성
+		JMenu newSubMenu = new JMenu("New");
+		fileMenu.add(newSubMenu);
+		
+		// 서브 메뉴 항목 추가
+		JMenuItem projectItem = new JMenuItem("Project");
+		projectItem.addActionListener(e->{
+			text.setText(projectItem.getName());
+			
+		});
+		JMenuItem moduleItem = new JMenuItem("Module");
+		moduleItem.addActionListener(e->{
+			text.setText(moduleItem.getName());
+			
+		});
+		newSubMenu.add(projectItem);
+		newSubMenu.add(moduleItem);
+		
+		// File 메뉴 항목 추가
+		JMenuItem openItem = new JMenuItem("열기");
+		openItem.addActionListener(e->{
+			text.setText(openItem.getName());
+			
+		});
+		JMenuItem saveItem = new JMenuItem("저장하기");
+		saveItem.addActionListener(e->{
+			text.setText(saveItem.getName());
+			
+		});
+		fileMenu.add(openItem);
+		fileMenu.add(saveItem);
+
+		this.add(panel);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+
+	}
+}
+
+public class menu {
+
+	public static void main(String[] args) {
+		MyFrame f = new MyFrame();
+
+	}
+
+}

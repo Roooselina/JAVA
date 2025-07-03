@@ -1,0 +1,75 @@
+package Tile;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import main.GamePanel;
+
+public class TileManger {
+
+	GamePanel gp;
+	Tile[] tile;
+	TileRead tileReader;
+	
+    String Cave1 = "C:\\Users\\kuroc\\OneDrive\\바탕 화면\\과제\\JAVA\\게임 제작2\\main\\src\\gameBackground\\동굴1.txt"; // 파일 경로 설정
+    
+	
+	
+	public TileManger(GamePanel gp){
+		this.gp = gp;
+		tile = new Tile[10];	// 타일 종류
+		getTileImage();
+		tileReader = new TileRead();
+	}
+	
+	public void getTileImage() {
+		try {
+			tile[0] = new Tile();
+			tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌바닥.png"));
+			tile[1] = new Tile();
+			tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌바닥2.png"));
+			tile[2] = new Tile();
+			tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌바닥3.png"));
+			tile[3] = new Tile();
+			tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/버튼.png"));
+			tile[4] = new Tile();
+			tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌벽_상.png"));
+			tile[5] = new Tile();
+			tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌벽_중.png"));
+			tile[6] = new Tile();
+			tile[6].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌벽_하.png"));
+			tile[7] = new Tile();
+			tile[7].image = ImageIO.read(getClass().getResourceAsStream("/tiles/돌벽_꼭대기.png"));
+			
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void draw(Graphics2D g2) {
+	    int[][] matrix = tileReader.readMatrixFromFile(Cave1);
+	    
+	    int worldCol = 0;
+	    int worldRow = 0;
+	    
+	    if (matrix != null) {
+	        for (int row = 0; row < matrix.length; row++) {
+	            for (int col = 0; col < matrix[row].length; col++) {
+	                int tileIndex = matrix[row][col];
+	                if (tileIndex >= 0 && tileIndex < tile.length && tile[tileIndex] != null) {
+	                    BufferedImage image = tile[tileIndex].image;
+	                    int worldX = worldCol * gp.getOrigianlCharacterSize();
+	                    int worldY = worldRow * gp.getOrigianlCharacterSize();
+	                    int screenX = worldX - gp.player.worldX;
+	                    g2.drawImage(image, x, y, gp.getOrigianlCharacterSize(), gp.getOrigianlCharacterSize(), null);
+	                }
+	            }
+	        }
+	    }
+	}
+
+	}

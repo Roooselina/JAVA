@@ -1,0 +1,140 @@
+package main;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
+import Entity.CommonEntity;
+
+public class CollisionChecker {
+	GamePanel gp;
+
+	public CollisionChecker(GamePanel gp) {
+		this.gp = gp;
+	}
+
+	public void checkTile(CommonEntity entity) {
+		int entityLeftWorldX = entity.worldX + entity.solidArea.x;
+		int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
+		int entityTopWorldY = entity.worldY + entity.solidArea.y;
+		int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
+
+		int entityLeftCol = entityLeftWorldX / gp.getOrigianlCharacterSize();
+		int entityRightCol = entityRightWorldX / gp.getOrigianlCharacterSize();
+		int entityTopRow = entityTopWorldY / gp.getOrigianlCharacterSize();
+		int entityBottomRow = entityBottomWorldY / gp.getOrigianlCharacterSize();
+
+		int tileNum1, tileNum2;
+
+		int maxCol = gp.tileM.mapTileNum[0].length;
+		int maxRow = gp.tileM.mapTileNum.length;
+
+		switch (entity.direction) {
+			case "up":
+				entityTopRow = (entityTopWorldY - entity.speed) / gp.getOrigianlCharacterSize();
+				if (entityTopRow >= 0) {
+					tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+					tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+					if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
+						entity.collisionOn = true;
+					}
+				}
+				break;
+			case "down":
+				entityBottomRow = (entityBottomWorldY + entity.speed) / gp.getOrigianlCharacterSize();
+				if (entityBottomRow < maxRow) {
+					tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+					tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+					if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
+						entity.collisionOn = true;
+					}
+				}
+				break;
+			case "left":
+				entityLeftCol = (entityLeftWorldX - entity.speed) / gp.getOrigianlCharacterSize();
+				if (entityLeftCol >= 0) {
+					tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+					tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+					if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
+						entity.collisionOn = true;
+					}
+				}
+				break;
+			case "right":
+				entityRightCol = (entityRightWorldX + entity.speed) / gp.getOrigianlCharacterSize();
+				if (entityRightCol < maxCol) {
+					tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+					tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+					if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
+						entity.collisionOn = true;
+					}
+				}
+				break;
+		}
+	}
+
+	public int checkObject(CommonEntity entity, boolean player) {
+		return checkCollision(entity, gp.obj, player);
+	}
+
+	public int checkEntity(CommonEntity entity, CommonEntity[] target) {
+		return checkCollision(entity, target, false);
+	}
+
+	public void checkPlayer(CommonEntity entity) {
+		if (gp.player.collisionOn) {
+			checkCollision(entity, new CommonEntity[]{gp.player}, false);
+		}
+	}
+
+	private int checkCollision(CommonEntity entity, CommonEntity[] targets, boolean player) {
+		int index = 999;
+
+		for (int i = 0; i < targets.length; i++) {
+			if (targets[i] != null && targets[i].collisionOn) {
+				setSolidAreaPosition(entity);
+				setSolidAreaPosition(targets[i]);
+
+				switch (entity.direction) {
+					case "up":
+						entity.solidArea.y -= entity.speed;
+						break;
+					case "down":
+						entity.solidArea.y += entity.speed;
+						break;
+					case "left":
+						entity.solidArea.x -= entity.speed;
+						break;
+					case "right":
+						entity.solidArea.x += entity.speed;
+						break;
+				}
+
+				if (entity.solidArea.intersects(targets[i].solidArea)) {
+					entity.collisionOn = true;
+					if (player) {
+						index = i;
+					}
+				}
+
+				resetSolidAreaPosition(entity);
+				resetSolidAreaPosition(targets[i]);
+			}
+		}
+		return index;
+	}
+
+	private void setSolidAreaPosition(CommonEntity entity) {
+		entity.solidArea.x = entity.worldX + entity.solidAreaDefaultX;
+		entity.solidArea.y = entity.worldY + entity.solidAreaDefaultY;
+	}
+
+	private void resetSolidAreaPosition(CommonEntity entity) {
+		entity.solidArea.x = entity.solidAreaDefaultX;
+		entity.solidArea.y = entity.solidAreaDefaultY;
+	}
+
+	private Graphics2D fillRect(int i, int j, int width, int height) {
+		return null; // Not implemented, left for future development
+	}
+}

@@ -1,0 +1,15 @@
+package main;
+
+import javax.swing.text.html.parser.Entity;
+
+public class CollisionChecker {
+	GamePanel gp;
+	
+	public CollisionChecker(GamePanel gp) {
+		this.gp = gp;
+	}
+	
+	public void CheckTile(Entity entity) {
+		
+	}
+}

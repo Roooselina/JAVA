@@ -1,0 +1,53 @@
+package 교과서_10_2;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+class myFrame extends JFrame {
+	int x;
+	int y;
+
+	myFrame() {
+		this.setSize(800, 600);
+		this.setLayout(null);
+
+		JPanel panel = new JPanel();
+		this.add(panel);
+		panel.addMouseMotionListener(new MouseMotionListener() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				x = e.getX();
+				y = e.getY();
+				repaint();
+				System.out.println(11);
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+			}
+
+		});
+
+		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	public void paint(Graphics g) {
+		g.setColor(Color.RED);
+		g.fillRect(x, y, 50, 50);
+	}
+
+}
+
+public class 교과10_2 {
+	public static void main(String[] args) {
+		myFrame m = new myFrame();
+	}
+}

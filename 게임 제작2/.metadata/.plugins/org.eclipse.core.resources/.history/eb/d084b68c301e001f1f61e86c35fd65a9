@@ -1,0 +1,461 @@
+package main;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import Dialogue.Monologue;
+import Entity.CommonEntity;
+import Object.OBJ_HEART;
+import Object.SuperObjects;
+
+public class UI {
+	GamePanel gp;
+	Font font, pauseFont, titleFont, scriptFont;
+	BufferedImage heart_full, heart_half, heart_empty;
+
+	public int commandNum = 0;
+	public int scriptNum = 0;
+
+	public String currentDialogue = "";
+	int dialogueIndex = 0;
+	int playerFace = 0;
+
+	Monologue mManager;
+	public int monsterName;
+	CommonEntity entity;
+	int result;
+
+	public UI(GamePanel gp) {
+		this.gp = gp;
+		font = new Font("빛의 계승자 Regular", Font.PLAIN, 25);
+		pauseFont = new Font("빛의 계승자 Bold", Font.PLAIN, 40);
+		titleFont = new Font("빛의 계승자 Bold", Font.PLAIN, 40);
+		scriptFont = new Font("빛의 계승자 Bold", Font.PLAIN, 30);
+
+		// 하트 이미지
+		SuperObjects heart = new OBJ_HEART(gp);
+		heart_full = heart.image;
+		heart_half = heart.image2;
+		heart_empty = heart.image3;
+
+		mManager = new Monologue();
+
+	}
+
+	public void draw(Graphics2D g2) {
+		if (gp.gameState == gp.titleState) {
+			drawTitleScreen(g2);
+		} else if (gp.gameState == gp.ScriptState) {
+			drawStoryScreen(g2);
+		} else if (gp.gameState == gp.playState) {
+			drawPlayerName(g2);
+			drawPlayerLife(g2);
+		} else if (gp.gameState == gp.startMonologue) {
+			drawDialogueScreen(g2);
+		} else if (gp.gameState == gp.battleState) {
+			gp.adjustScreenSize();
+			battleScreen(g2);
+			drawDialogueScreen(g2);
+		} else if (gp.gameState == gp.endState) {
+
+		}
+
+	}
+
+	public void drawTitleScreen(Graphics2D g2) {
+		g2.setFont(titleFont);
+		g2.setColor(Color.white);
+		try {
+			BufferedImage logoImage = ImageIO.read(getClass().getResourceAsStream("/logo/로고.png"));
+			int imageX = logoImage.getWidth() / 2;
+			int imageY = logoImage.getHeight() / 4 - 10;
+			g2.drawImage(logoImage, imageX, imageY, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		String text = "NEW GAME";
+		int x = getXforCentredText(text, g2);
+		int y = 8 * gp.getOrigianlCharacterSize();
+		g2.drawString(text, x, y + 20);
+		if (commandNum == 0)
+			g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y + 15);
+
+		text = "LOAD GAME";
+		x = getXforCentredText(text, g2);
+		y = 9 * gp.getOrigianlCharacterSize();
+		g2.drawString(text, x, y + 20);
+		if (commandNum == 1)
+			g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y + 15);
+	
+
+		text = "QUIT";
+		x = getXforCentredText(text, g2);
+		y = 10 * gp.getOrigianlCharacterSize();
+		g2.drawString(text, x, y + 20);
+		if (commandNum == 2)
+			g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y + 15);
+
+	}
+
+	public void drawStoryScreen(Graphics2D g2) {
+		g2.setFont(scriptFont);
+		g2.setColor(Color.white);
+
+		if (scriptNum == 0) {
+			String text = "이비르 대륙, 신비로운 마법과";
+			int x = getXforCentredText(text, g2);
+			int y = 4 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "위험한 몬스터로 가득한 이곳";
+			x = getXforCentredText(text, g2);
+			y = 5 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "당신은 자신만의 전설을 쓰기 위해";
+			x = getXforCentredText(text, g2);
+			y = 7 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "모험에 나서는 용감한 모험가입니다";
+			x = getXforCentredText(text, g2);
+			y = 8 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			g2.setFont(font);
+			text = "▶ SPACE";
+			x = getXforCentredText(text, g2);
+			y = 9 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+		} else if (scriptNum == 1) {
+			String text = "이야기의 시작은 작은 마을";
+			int x = getXforCentredText(text, g2);
+			int y = 4 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "당신은 이곳에서 주변의 몬스터들이";
+			x = getXforCentredText(text, g2);
+			y = 6 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "사람들을 위협하고 있는 소식을 듣게 됩니다";
+			x = getXforCentredText(text, g2);
+			y = 7 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			g2.setFont(font);
+			text = "▶ SPACE";
+			x = getXforCentredText(text, g2);
+			y = 9 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+		} else if (scriptNum == 2) {
+			String text = "마을 주민들이 간절한 표정으로 이야기합니다";
+			int x = getXforCentredText(text, g2);
+			int y = 4 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "...숲에서 이상한 몬스터들이 나타나";
+			x = getXforCentredText(text, g2);
+			y = 6 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "마을을 위협하고 있어...";
+			x = getXforCentredText(text, g2);
+			y = 7 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			g2.setFont(font);
+			text = "▶ SPACE";
+			x = getXforCentredText(text, g2);
+			y = 9 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+		} else if (scriptNum == 3) {
+			String text = "게임을 진행하시겠습니까?";
+			int x = getXforCentredText(text, g2);
+			int y = 4 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "YES";
+			x = getXforCentredText(text, g2);
+			y = 6 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+			if (commandNum == 0)
+				g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y - 3);
+
+			text = "NO";
+			x = getXforCentredText(text, g2);
+			y = 7 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+			if (commandNum == 1)
+				g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y - 3);
+		}
+
+	}
+
+	public void drawDialogueScreen(Graphics2D g2) {
+		if (gp.gameState == gp.dialogueState || gp.gameState == gp.startMonologue || gp.gameState == gp.battleState) {
+			int x = gp.getOrigianlCharacterSize() / 2;
+			int y = gp.getOrigianlCharacterSize() / 2;
+			int width = 800 - (gp.getOrigianlCharacterSize() * 2);
+			int height = gp.getOrigianlCharacterSize() * 4;
+
+			drawSubWindow(x, y, width, height, g2);
+
+			g2.setFont(font);
+			g2.setColor(Color.white);
+			x += gp.getOrigianlCharacterSize() + 200;
+			y += gp.getOrigianlCharacterSize() + 300;
+
+			if (gp.gameState == gp.startMonologue) {
+				g2.drawString(currentDialogue, x, y);
+			}
+
+			if (gp.gameState == gp.battleState) {
+				
+				gp.playerImages.drawPlayerImg(40, 150, playerFace, g2);
+				if (monsterName ==0) {
+					BufferedImage image;
+					try {
+						image = ImageIO.read(getClass().getResourceAsStream("/monsters/나무.gif"));
+						g2.drawImage(image,
+								250 - gp.getOrigianlCharacterSize() ,
+								150 - gp.getOrigianlCharacterSize(),
+								gp.getOrigianlCharacterSize()*8,
+								gp.getOrigianlCharacterSize()*5, null);
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				String text = "ATTACK";
+				x = getXforCentredText(text, g2);
+				y = 8 * gp.getOrigianlCharacterSize();
+				g2.drawString(text, x, y);
+				if (commandNum == 0)
+					g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y - 3);
+
+				text = "  ITEM  ";
+				x = getXforCentredText(text, g2);
+				y = 9 * gp.getOrigianlCharacterSize();
+				g2.drawString(text, x, y);
+				if (commandNum == 1)
+					g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y - 3);
+
+				text = "ESCAPE";
+				x = getXforCentredText(text, g2);
+				y = 10 * gp.getOrigianlCharacterSize();
+				g2.drawString(text, x, y);
+				if (commandNum == 2)
+					g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y - 3);
+
+			}
+
+			if (gp.gameState == gp.dialogueState || gp.gameState == gp.startMonologue) {
+				gp.playerImages.drawPlayerImg(40, 150, playerFace, g2);
+			}
+		}
+
+	}
+
+	public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
+		g2.setColor(new Color(0, 0, 0, 210)); // 검정색으로 설정
+		g2.fillRoundRect(x + 20, y + 300, width, height - 10, 35, 35); // 직사각형 그리기
+
+		g2.setColor(Color.white);
+		g2.setStroke(new BasicStroke(5));
+		g2.drawRoundRect(x + 20, y + 300, width, height - 10, 25, 25); // 테두리 그리기
+	}
+
+	public void battleScreen(Graphics2D g2) {
+		BufferedImage backGround;
+		try {
+			backGround = ImageIO.read(getClass().getResourceAsStream("/logo/전투배경.png"));
+			g2.drawImage(backGround, 0, 0, 800, 600, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void drawBattle(Graphics2D g2) {
+		
+		String text = this.currentDialogue;
+		int x = getXforCentredText(text, g2);
+		int y = 8 * gp.getOrigianlCharacterSize();
+		g2.drawString(text, x, y);
+		
+		text = "▶ SPACE";
+		x = getXforCentredText(text, g2);
+		y = 9 * gp.getOrigianlCharacterSize();
+		g2.drawString(text, x, y);
+	}
+	
+	public void drawPlayerName(Graphics2D g2) {
+		// 글자의 너비와 높이 계산
+		FontMetrics fontMetrics = g2.getFontMetrics(font);
+		int textWidth = fontMetrics.stringWidth("Player");
+		int textHeight = fontMetrics.getHeight();
+
+		// 투명도가 30%인 흰색으로 설정
+		g2.setColor(new Color(255, 255, 255, 77)); // 흰색 (255, 255, 255), 투명도 30%인 경우 77로 설정
+
+		// 직사각형 그리기
+		g2.fillRect(90, 90 - fontMetrics.getAscent(), textWidth, textHeight);
+
+		// 글자 그리기
+		g2.setFont(font);
+		g2.setColor(Color.black);
+		g2.drawString("Player", 90, 90);
+	}
+
+	public void drawPause(Graphics2D g2) {
+		if (gp.gameState == gp.pauseState) { // pause 상태일 때만 "PAUSE"를 그립니다.
+			g2.setFont(pauseFont);
+			g2.setColor(new Color(0, 0, 0, 153)); // 60% 투명도 검정색
+
+			String pauseText = "PAUSE";
+
+			int textWidth = g2.getFontMetrics().stringWidth(pauseText); // 문자열의 너비 계산
+			int textHeight = g2.getFontMetrics().getHeight(); // 문자열의 높이 계산
+			int centerX = (gp.screenWidth - textWidth) / 2; // X축 중앙 위치 계산
+			int centerY = (gp.screenHeight - textHeight) / 2 + 20; // Y축 중앙 위치 계산
+
+			g2.fillRect(centerX - 10, centerY - 10, textWidth + 20, textHeight); // 직사각형 그리기
+			g2.setColor(Color.white);
+			g2.drawString(pauseText, centerX, centerY + textHeight / 2); // "PAUSE" 문자열 그리기
+		}
+	}
+
+	public void drawPlayerLife(Graphics2D g2) {
+		int x = gp.getOrigianlCharacterSize() / 3;
+		int y = gp.getOrigianlCharacterSize() / 3;
+		int i = 0;
+
+		while (i < gp.player.maxLife / 2) {
+			g2.drawImage(heart_empty, x, y, null);
+			i++;
+			x += gp.getOrigianlCharacterSize() / 2;
+		}
+
+		x = gp.getOrigianlCharacterSize() / 3;
+		y = gp.getOrigianlCharacterSize() / 3;
+		i = 0;
+
+		while (i < gp.player.life / 2) {
+			g2.drawImage(heart_full, x, y, null);
+			i++;
+			x += gp.getOrigianlCharacterSize() / 2;
+		}
+
+		// 만약 플레이어의 HP가 홀수인 경우, 마지막 하트를 반만 채워줍니다.
+		if (gp.player.life % 2 != 0) {
+			g2.drawImage(heart_half, x, y, null);
+			x += gp.getOrigianlCharacterSize() / 2;
+		}
+
+	}
+	
+	public void drawStoryEnd(Graphics2D g2) {
+		g2.setFont(scriptFont);
+		g2.setColor(Color.black);
+		g2.fillRect(0, 0, 800, 600);
+		if (scriptNum == 0) {
+			String text = "당신은 ";
+			int x = getXforCentredText(text, g2);
+			int y = 5 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "모든 몬스터를 물리치는데 성공했다";
+			x = getXforCentredText(text, g2);
+			y = 6 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			g2.setFont(font);
+			text = "▶ SPACE";
+			x = getXforCentredText(text, g2);
+			y = 9 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+		} else if (scriptNum == 1) {
+			String text = "당신은 마을로 돌아갔습니다";
+			int x = getXforCentredText(text, g2);
+			int y = 4 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "마을 사람들은";
+			x = getXforCentredText(text, g2);
+			y = 6 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "그 소식을 듣고 환호합니다";
+			x = getXforCentredText(text, g2);
+			y = 7 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			g2.setFont(font);
+			text = "▶ SPACE";
+			x = getXforCentredText(text, g2);
+			y = 9 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+		} else if (scriptNum == 2) {
+			String text = "당신은 마을을 구하는데 성공했습니다";
+			int x = getXforCentredText(text, g2);
+			int y = 5 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "축하드립니다";
+			x = getXforCentredText(text, g2);
+			y = 6 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+
+			g2.setFont(font);
+			text = "▶ SPACE";
+			x = getXforCentredText(text, g2);
+			y = 9 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+		} else if (scriptNum == 3) {
+			String text = "게임을 진행하시겠습니까?";
+			int x = getXforCentredText(text, g2);
+			int y = 4 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+
+			text = "YES";
+			x = getXforCentredText(text, g2);
+			y = 6 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+			if (commandNum == 0)
+				g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y - 3);
+
+			text = "NO";
+			x = getXforCentredText(text, g2);
+			y = 7 * gp.getOrigianlCharacterSize();
+			g2.drawString(text, x, y);
+			if (commandNum == 1)
+				g2.drawString("▶", x - gp.getOrigianlCharacterSize(), y - 3);
+		}
+
+	}
+
+	public int getXforCentredText(String text, Graphics2D g2) { // Graphics2D 객체를 전달받도록 수정
+		FontMetrics fontMetrics = g2.getFontMetrics(); // Graphics2D 인스턴스의 getFontMetrics() 메서드 호출
+		int length = (int) fontMetrics.getStringBounds(text, g2).getWidth(); // text 변수를 그대로 사용하여 문자열 길이 계산
+		if (gp.gameState == gp.titleState || gp.gameState == gp.ScriptState || gp.gameState == gp.battleState) {
+			int x = 800 / 2 - length / 2;
+			return x;
+		} else {
+			int x = gp.screenWidth / 2 - length / 2;
+			return x;
+		}
+
+	}
+
+}

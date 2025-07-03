@@ -1,0 +1,96 @@
+package 중간;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+class Car {
+    int speed;
+    private int x;
+    private int y;
+    Color color;
+
+    Car(int speed, int x, int y, Color color) {
+        this.speed = speed;
+        this.x = x;
+        this.y = y;
+        this.color = color;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+}
+
+class MyScreen extends JFrame {
+    ArrayList<Car> carList;
+
+    MyScreen(String name, ArrayList<Car> carList) {
+        this.carList = carList;
+        this.setTitle(name);
+        this.setSize(800, 400);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        JButton button = new JButton("START");
+        button.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Timer timer = new Timer(carList);
+                timer.start();
+            }
+
+        });
+        add(button, BorderLayout.SOUTH);
+        this.setVisible(true);
+    }
+
+    public void checkAndRestartTimer() {
+        for (Car car : carList) {
+            if (car.getX() < 700) {
+                return; // 자동차의 x 좌표가 700보다 작으면 타이머를 재시작하지 않음
+            }
+        }
+        // 자동차의 x 좌표가 모두 700 이상이면 타이머를 재시작
+        Timer timer = new Timer(carList);
+        timer.start();
+    }
+}
+
+class Timer extends Thread {
+    ArrayList<Car> carList;
+
+    Timer(ArrayList<Car> carList) {
+        this.carList = carList;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(1000); // 1초마다 움직이도록 설정
+                for (Car car : carList) {
+                    car.setX((int) (Math.random() * 20 + car.getX())); // 랜덤하게 x좌표 이동
+                }
+                MyScreen.this.checkAndRestartTimer(); // MyScreen의 메서드 호출하여 자동차의 위치 확인
+                MyScreen.this.repaint(); // 화면 다시 그리기
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

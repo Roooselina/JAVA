@@ -1,0 +1,17 @@
+package Object;
+
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class OBJ_STAIR extends SuperObjects {
+	public OBJ_STAIR() {
+		name = "계단";
+		try {
+			image = ImageIO.read(getClass().getResourceAsStream("/Objects/계단.png"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+	}
+}

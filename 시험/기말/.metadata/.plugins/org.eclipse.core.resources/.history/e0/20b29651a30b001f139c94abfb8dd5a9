@@ -1,0 +1,31 @@
+package math2;
+
+interface Calculator{
+
+	int calculator(int x, int y);
+
+}
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		Calculator addition = new Calculator() {
+
+			@Override
+
+			public int calculator(int x, int y) {
+
+				return x+y;
+
+			}
+
+		};
+
+		int result = addition.calculator(5, 3);
+
+		System.out.println("결과 = "+result);
+
+	}
+
+}

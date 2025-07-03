@@ -1,0 +1,113 @@
+package 중간;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+class Car {
+    int speed;
+    private int x;
+    private int y;
+    Color color;
+
+    Car(int speed, int x, int y, Color color) {
+        this.speed = speed;
+        this.x = x;
+        this.y = y;
+        this.color = color;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+}
+
+class MyScreen extends JFrame {
+    ArrayList<Car> carList;
+    int end;
+
+    MyScreen(String name, ArrayList<Car> carList) {
+        this.carList = carList;
+        this.setTitle(name);
+        this.setSize(800, 400);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        JButton button = new JButton("START");
+        button.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	do {
+                Timer timer = new Timer(carList);
+                timer.run();
+                repaint();
+                
+                for (Car c : carList) {
+                	if (c.getX()>700)
+                		end = 1;
+                }
+                if (end==1) break;
+            	}while(true);
+            }
+
+        });
+        add(button, BorderLayout.SOUTH);
+        this.setVisible(true);
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        for (Car car : carList) {
+            g.setColor(car.color);
+            g.fillRect(car.getX(), car.getY(), 50, 30); // 자동차를 사각형으로 그립니다.
+        }
+    }
+}
+
+class Timer extends Thread {
+    ArrayList<Car> carList;
+
+    Timer(ArrayList<Car> carList) {
+        this.carList = carList;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(1000); // 1초마다 움직이도록 설정
+                for (Car car : carList) {
+                    car.setX((int) (Math.random() * 20 + car.getX())); // 랜덤하게 x좌표 이동
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        ArrayList<Car> list = new ArrayList<Car>();
+        list.add(new Car(10, 20, 20, new Color(20, 20, 20)));
+        list.add(new Car(20, 20, 80, new Color(80, 80, 80)));
+        list.add(new Car(30, 20, 160, new Color(150, 150, 150)));
+
+        MyScreen mc = new MyScreen("Car Animation", list);
+    }
+}

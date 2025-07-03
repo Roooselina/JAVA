@@ -1,0 +1,21 @@
+package 시험;
+
+interface Animal {
+	void bark();
+}
+
+public class test {
+
+	public static void main(String[] args) {
+		Animal dog = new Animal() {
+
+			@Override
+			public void bark() {
+				System.out.print("컹컹");
+			}
+			
+		};
+		
+		dog.bark();
+	}
+}

@@ -1,0 +1,210 @@
+package game;
+
+public class Script {
+
+	// TODO Auto-generated method stub
+
+	public static void MainScreen() {
+		System.out.println("=================================\n");
+		System.out.println("    타임 오브 이비르: 황혼의 땅\n\n");
+		System.out.println("     제작자: 20234014 컴퓨터 공학과 이은정");
+		System.out.println("=================================\n");
+
+		System.out.print("  1. 게임 시작      2. 게임 종료\n");
+		System.out.print("행동을 입력해주세요: ");
+	}
+
+	public static void InfoGameStart() {
+		System.out.println("\n이비르 대륙, 신비로운 마법과 위험한 몬스터로 가득한 이곳");
+		System.out.println("당신은 자신만의 전설을 쓰기 위해 모험에 나서는 용감한 모험가입니다.");
+		System.out.println("이야기의 시작은 작은 마을. 당신은 이곳에서 주변의 몬스터들이 사람들을 위협하고 있는 소식을 듣게 됩니다.");
+		System.out.println("마을 주민들이 불안한 표정으로 이야기합니다.");
+		System.out.println("'숲에서 이상한 몬스터들이 나타나 마을을 위협하고 있어... 도움이 필요해'\n");
+		System.out.println("당신은 고민합니다.");
+
+		System.out.println("  1. 마을으로 간다    2. 돌아가기\n");
+	}
+
+	public static void DenyGameStart() {
+		System.out.println("당신은 이런 마을이 아닌 다른 곳에서 더 많은 기회를 찾기로 결심합니다.");
+		System.out.println("당신은 당신의 길드원들과 함께 길을 떠납니다.");
+	}
+
+	public static void InfoTown() {
+		System.out.println("당신은 이비르 대륙의 작은 마을에 도착했습니다.");
+		System.out.println("마을은 농사를 짓고, 장사를 하는 사람들로 북적입니다. 당신은 주변을 둘러봅니다.");
+		System.out.println("마을에는 큰 주점과 여러 의뢰서가 붙은 게시판 그리고 갖가지 물건을 늘여놓고 장사를 하고 있는 장사꾼들이 보입니다.");
+		System.out.println("당신은 무슨 행동을 하시겠습니까?\n");
+
+		System.out.print("1. 주점에 방문    2. 게시판 살펴보기	3. 상점 방문	4. 이장 집 방문	   \n");
+	}
+
+	public static void visit_top() {
+		System.out.println("당신과 당신의 길드는 이장의 집에 방문했습니다.");
+		System.out.println("'어서 오십시오! 여행자님!'");
+		System.out.println("이장이 당신들을 환영합니다. 이장이 말을 이어 나갑니다.");
+		System.out.println("'최근 몬스터의 수가 너무 많이 늘었어요. 마을사람들도 몬스터에게 공격을 받고 있습니다.'");
+		System.out.println("'혹시 여행자님께서 그 몬스터들을 처리해 주실 수 있겠습니까?'");
+		System.out.println("이장이 부탁합니다.\n");
+
+
+	}
+
+	public static void OptionsTownVisit() {
+		System.out.println("\n1. 제안을 받아들이기    2. 제안을 거절하기\n");
+	}
+
+	public static void AcceptTown() {
+		System.out.println("\n이장은 눈에 띄게 기뻐합니다.");
+		System.out.println("'아이고! 감사합니다, 여행자님!'");
+		System.out.println("이장이 당신의 손을 잡고 흔들며 감사 인사를 전합니다.");
+		System.out.println("'그렇다면 여행자님의 성함을 알려주시겠습니까?'\n");
+	}
+
+	public static void InfoStore() {
+		System.out.println("\n당신은 시장으로 나아갔다. 여러 상인들이 무기와 포션을 늘어놓고 팔고 있습니다.");
+		System.out.println("당신은 무엇을 파는지 살펴보았습니다.\n");
+	}
+
+	public static void InfoPub() {
+		System.out.println("\n당신들은 마을의 주점으로 발걸음을 옮겼습니다. 따뜻한 불빛을 맞으며 들어간 주점은 사람들로 붐볐습니다. ");
+		System.out.println("어느 테이블에서는 활기차게 이야기를 나누는 소리가 들리고, 다른 곳에서는 웃음 소리가 퍼져나갔습니다.");
+		System.out.println("당신은 주점 안을 살피다 바를 발견할 수 있었습니다.");
+		System.out.println("당신은 바의 바텐더에게 다가갑니다. 바텐더가 당신을 흘끔 쳐다봅니다.");
+
+	}
+
+	public static void OptionsToTemper() {
+		System.out.println("\n숲 끝에 도달했을 때, 당신은 두 갈래의 갈림길을 마주했습니다.");
+		System.out.println("당신은 으스스한 기운이 등골을 타고 오르는 것을 느꼈습니다. 당신은 어떤 길을 선택해야 할까요?\n");
+	}
+
+	public static void Pubforest() {
+		System.out.println("\n'당신네들은 여행자인가?', 바텐더가 당신을 흘끔 쳐다봅니다.");
+		System.out.println("'어쩌면 그 소문을 듣고 온 용병일지도 모르겠군'.");
+		System.out.println("'요즘 숲 속에 여러 몬스터가 등장한다는 이야기가 돌고 있소. 숲속에 방문해 보는 것은 어떻소?'");
+		System.out.println("바텐더는 눈길도 주지 않은채 수건으로 잔을 닦으며 말했습니다.");
+		System.out.println("'어쩌면 거기에서 당신은 특별한 것을 발견할지도 모르지, 안그렇소?', 그의 목소리는 저주받은 숲의 공포와 함께 적막함을 자아내었습니다.");
+		System.out.println("당신은 고개를 끄덕이며 감사를 전합니다.\n");
+	}
+
+	public static void InfoTemper() {
+		System.out.println("\n당신은 굳게 마음을 먹고 갈림길 안으로 들어섰습니다");
+		System.out.println("당신은 거친 풀 숲을 헤치고 갈림길을 걸어갔습니다");
+		System.out.println("갈림길의 끝에 다다르자 당신은 새로운 풍경을 맞이합니다.");
+		System.out.println("그 곳에는 새하얀 대리석으로 지어진 커다란 신전이 있었습니다. 어딘가 신비로운 분위기가 흐르는 건물이었죠.");
+		System.out.println("당신은 압도적인 분위기의 신전을 바라보았습니다...");
+	}
+
+	public static void OptionTemper() {
+
+		System.out.println("\n1. 신전을 살펴보기 2. 신전을 떠나기 \n");
+
+	}
+
+	public static int InfoInsideTemper(int num) {
+		if (num == 0) {
+			System.out.println("\n당신은 신전을 탐구하기로 결정했습니다. 당신은 신전 주변을 살펴보다 신전 내부로 들어갑니다.");
+			System.out.println("당신은 거대한 신전 내부로 들어섭니다.");
+			System.out.println("당신은 주변을 둘러보았습니다.");
+			System.out.println("신전의 천장에는 화려한 샹들리에가 내부를 비추고 있었고 횃불이 타오르고 있었습니다.");
+			System.out.println("바닥에는 길을 따라 붉은 양탄자가 깔려 있었고, 당신은 이끌리듯 그 길을 따라갔습니다.");
+			System.out.println("신전의 가장 앞에 다다르자 커다란 성배를 볼 수 있었습니다. 그 안은 이미 말라붙어있었습니다...");
+			System.out.println("\n당신은 어디를 탐색하시겠습니까?");
+
+			System.out.println("\n1. 성배 2. 횃불 3. 신전 외부\n");
+		} else {
+			System.out.println("\n당신은 신전을 다시 한 번 탐구하기로 결정했습니다. 당신은 신전 내부를 살펴보다 비밀 문을 하나 발견합니다.");
+			System.out.println("당신은 조심스레 그 문을 두들겨 봅니다. 안에는 아무도 없는 것 같습니다.");
+			System.out.println("당신은 문을 열고 안으로 들어갔고, 그곳엔 작은 방이 있었습니다. 생활감이 없는 것으로 보아 오랜시간 방치된 방인 것 같았습니다.");
+			System.out.println("당신은 방 내부를 둘러보다 먼지 쌓인 한 고서를 발견했습니다. 당신은 책을 손으로 쓸어보았습니다.");
+			System.out.println("뿌연 먼지가 일어 당신은 콜록이다 책을 집어 들어 안을 살펴보았습니다...\n\n");
+
+			System.out.println("=================================================\n");
+			System.out.println("오래 전 마왕이 마을에 쳐들어왔다. 사람들은 힘을 합쳐 그 마왕을 무찌르기 위해 최선을 다했다...");
+			System.out.println("마왕은 강력했다. 그러나 수많은 성직자들의 힘이 담긴 성검을 통해 마왕을 무찌를 수 있었다...");
+			System.out.println("마왕은 이후 성직자들에게 봉인되었다. 그러나 시간이 지나며 봉인이 점점 약해지고 있다...");
+			System.out.println("보수를 하지 않는다면 봉인은 곧 풀리고 말 것이다...");
+			System.out.println("어서... 누군가가 이를 해결해야만 한다...");
+			System.out.println("\n=================================================\n");
+
+			System.out.println("당신은 책을 덮었다...");
+			System.out.println("당신은 성검을 꽉 쥐었습니다. 당신은 이 사건의 전말을 눈치챘습니다...");
+
+			return 1;
+		}
+		return 0;
+
+	}
+
+	public static int InfoHolyGrail(int temper, int holygrail) {
+		System.out.println("\n당신은 말라붙은 성배를 바라보았습니다. 그리고서는 성배를 들고 이리저리 살펴보았습니다.");
+		System.out.println("당신은 성배 내부에 말라붙은 성수 자국이 있는 것을 발견했습니다.");
+		System.out.println("당신은 성수를 채워넣기로 결심했습니다...");
+		if (holygrail == 0) {
+			if (temper == 1) {
+				System.out.println("=============< QUEST >=========\n");
+				System.out.println("성수를 구해 부어 넣으세요.");
+			} else {
+				System.out.println("=============< QUEST >=========\n");
+				System.out.println("당신은 성수를 채워 넣기로 결심했다. 성수를 구해 부어 넣으세요.");
+			}
+		} else {
+			System.out.println("당신은 구해온 성수를 부어넣었습니다.");
+			System.out.println("\n!!!\n");
+			System.out.println("성배가 하얗게 반짝이더니 곧이어 새하얀 빛이 신전 안을 가득 채웠습니다. ");
+			System.out.println("당신은 반사적으로 팔로 앞을 막아섰습니다..!");
+			System.out.println("\n\n...\n\n");
+			System.out.println("당신은 빛이 잦아들고 나서 천천히 팔을 내렸습니다.");
+			System.out.println("...!");
+			System.out.println(
+					"당신은 빛나는 성배 앞에 놓인 새하얀 검을 발견할 수 있었습니다.\n신전의 성물인 보석이 손잡이에 장식되어 있는 것으로 보아 이것이 전설로 전해지던 성검인 것 같습니다.");
+			System.out.println("당신은 성검을 챙겨들었습니다.");
+			System.out.println("성검은 웅웅거리며 성력을 드러냈습니다. 그러나 당신이 손잡이를 잡자 점점 당신의 힘과 융화되어 점차 잠잠해졌습니다.");
+			System.out.println("당신은 성검을 얻었습니다!\n");
+
+			System.out.println("=====================< INFO >=====================\n");
+			System.out.println("당신은 성검을 얻었습니다! 신전을 조금 더 탐색해보세요! 이전에는 발견하지 못했던 단서를 발견할 지도 모릅니다.");
+			System.out.println("=====================< INFO >=====================\n");
+
+			return 1;
+
+		}
+		return 0;
+
+	}
+
+	public static void InfoTorch() {
+		System.out.println("\n당신은 신전 내부를 환하게 밝히고 있는 횃불을 바라보았습니다.");
+		System.out.println("횃불은 조용히 타오르기만 할 뿐 특별히 이상해 보이는 것은 없는 것 같습니다.");
+		System.out.println("당신은 횃불 살피는 것을 그만두었습니다.");
+	}
+
+	public static void InfoOutTemper() {
+		System.out.println("\n당신은 신전 외부를 살펴보았습니다. 다행히도 괴물은 없는 것 같습니다.");
+		System.out.println("당신은 어두운 풀 숲에 딱히 위협이 되거나 이상하게 보이는 것은 없는 것을 확인합니다.");
+		System.out.println("당신은 안심하고 다시 신전 안으로 들어옵니다.");
+	}
+
+	public static void Result() {
+		System.out.println("\n크아악!!!!!!");
+		System.out.println("당신의 검을 맞고 마왕이 비명을 질렀다. 마왕이 비틀거리며 물러났다...");
+		System.out.println("'너..너는...정체가...!!' 마왕은 마지막 힘을 다해 당신을 향해 팔을 뻗었다.");
+		System.out.println("'세상을 위협하는 네 존재는 없어져야 마땅하다!'");
+		System.out.println("당신은 날아들듯 달려들어 마왕의 심장에 검을 꽂아넣었다.");
+		System.out.println("\n------------\n");
+		System.out.println("...");
+		System.out.println("어두웠던 하늘이 점차 밝아졌다. 하늘이 밝아지며 여기저기서 괴물들이 사라지기 시작했다.");
+		System.out.println("'콰쾅!' 당신은 성검을 바닥에 떨어뜨렸다.\n");
+		
+		System.out.println("...");
+		System.out.println("당신은 마을로 다시 돌아왔습니다.");
+		System.out.println("이장이 당신을 발견하고 당신을 얼싸 안습니다.");
+		System.out.println("'당신이 우리 마을을 구할 것이라는 것을 알고 있었소!' 이장이 감동에 가득차 바들바들 떨리는 손으로 당신의 손을 붙잡습니다");
+		System.out.println("이 영웅을 기리기 위해 축제를 열도록 하게!'");
+		System.out.println("당신은 마을사람들이 환희에 가득 차 당신에게 감사 인사를 하는 것을 바라보았습니다.");
+		System.out.println("이렇게... 이렇게 당신의 이야기는 점차 마무리 되었습니다...\n\n\n");
+		System.out.println("====================< GAME END >===================");
+	}
+	
+}

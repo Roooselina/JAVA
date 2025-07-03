@@ -1,0 +1,164 @@
+package test;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+class Calculator extends JFrame {
+
+    JPanel panel1, panel2;
+    JTextField text;
+    String result;
+    ArrayList<Float> numList;
+    ArrayList<String> operator;
+
+    public Calculator() {
+
+        panel1 = new JPanel();
+        panel2 = new JPanel();
+
+        numList = new ArrayList<Float>();
+        operator = new ArrayList<>();
+
+        this.setName("Calculator");
+        this.setSize(700, 600);
+        this.setLayout(new BorderLayout());
+
+        text = new JTextField();
+        panel2.add(text);
+
+        // 첫 번째 줄
+        panel1.setLayout(new GridLayout(4, 4));
+        for (int i = 7; i <= 9; i++) {
+            int number = i;
+            JButton button = new JButton(Integer.toString(i));
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    result += Integer.toString(number);
+                    text.setText(result);
+                }
+            });
+            panel1.add(button);
+        }
+        JButton slash = new JButton("/");
+        slash.addActionListener(e -> {
+            numList.add(Float.parseFloat(result));
+            result = "";
+            operator.add("/");
+        });
+        panel1.add(slash);
+
+        // 두 번째 줄
+        for (int i = 4; i <= 6; i++) {
+            int number = i;
+            JButton button = new JButton(Integer.toString(i));
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    result += Integer.toString(number);
+                    text.setText(result);
+                }
+            });
+            panel1.add(button);
+        }
+        JButton mul = new JButton("*");
+        mul.addActionListener(e -> {
+            numList.add(Float.parseFloat(result));
+            result = " ";
+            operator.add("*");
+        });
+        panel1.add(mul);
+
+        // 세 번째 줄
+        for (int i = 1; i <= 3; i++) {
+            int number = i;
+            JButton button = new JButton(Integer.toString(i));
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    result += Integer.toString(number);
+                    text.setText(result);
+                }
+            });
+            panel1.add(button);
+        }
+        JButton min = new JButton("-");
+        min.addActionListener(e -> {
+            numList.add(Float.parseFloat(result));
+            result = "";
+            operator.add("-");
+        });
+        panel1.add(min);
+
+        // 네 번째 줄
+        JButton zero = new JButton("0");
+        zero.addActionListener(e -> {
+            result += '0';
+        });
+        panel1.add(zero);
+
+        JButton dot = new JButton(".");
+        dot.addActionListener(e -> {
+            result += '.';
+        });
+        panel1.add(dot);
+
+        JButton endCal = new JButton("=");
+        endCal.addActionListener(e -> {
+            numList.add(Float.parseFloat(result));
+            text.setText(Float.toString(calculate(operator, numList)));
+        });
+        panel1.add(endCal);
+
+        JButton plus = new JButton("+");
+        plus.addActionListener(e -> {
+            numList.add(Float.parseFloat(result));
+            result = "";
+            operator.add("+");
+        });
+        panel1.add(plus);
+
+        this.add(panel1, "Center");
+        this.add(panel2, "North");
+
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    float calculate(ArrayList<String> list, ArrayList<Float> num) {
+        float res = num.get(0);
+        for (int i = 0; i < list.size(); i++) {
+            String operation = list.get(i);
+            float operand = num.get(i + 1);
+            switch (operation) {
+                case "+":
+                    res += operand;
+                    break;
+                case "-":
+                    res -= operand;
+                    break;
+                case "*":
+                    res *= operand;
+                    break;
+                case "/":
+                    res /= operand;
+                    break;
+            }
+        }
+        return res;
+    }
+}
+
+public class ExpressionEvaluator {
+    public static void main(String[] args) {
+        Calculator calculator = new Calculator();
+    }
+}

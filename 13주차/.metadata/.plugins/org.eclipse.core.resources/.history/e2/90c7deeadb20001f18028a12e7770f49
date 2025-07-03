@@ -1,0 +1,101 @@
+package week12_04;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+class Monster {
+    int x, y, hp;
+    Image img;
+    int speed = 4;
+
+    Monster(int x, int y, int hp) {
+        this.x = x;
+        this.y = y;
+        this.hp = hp;
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Image/monster.png")); // 리소스 경로 수정
+        img = icon.getImage();
+    }
+
+    public void draw(Graphics g) {
+        g.drawImage(img, x, y, null);
+    }
+}
+
+class MyFrame extends JFrame {
+    static ArrayList<Monster> monsters;
+    MyPanel panel;
+
+    MyFrame() {
+        monsters = new ArrayList<Monster>();
+        this.setTitle("Monster Catch Game");
+        this.setSize(700, 300);
+
+        for (int i = 0; i < 10; i++) {
+            monsters.add(new Monster((int) (Math.random() * 600), (int) (Math.random() * 200), 1));
+        }
+
+        panel = new MyPanel();
+        this.add(panel);
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                Iterator<Monster> iterator = monsters.iterator();
+                while (iterator.hasNext()) {
+                    Monster m = iterator.next();
+                    if (x >= m.x && x <= m.x + m.img.getWidth(null) &&
+                        y >= m.y && y <= m.y + m.img.getHeight(null)) {
+                        iterator.remove();
+                    }
+                }
+                repaint();
+            }
+        });
+
+        Timer timer = new Timer(100, e -> {
+            move();
+            repaint();
+        });
+        timer.start();
+
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    void move() {
+        for (Monster m : monsters) {
+            m.x += m.speed;
+            m.y += m.speed;
+            if (m.x < 0 || m.x > getWidth() - m.img.getWidth(null) || m.y < 0 || m.y > getWidth() - m.img.getWidth(null)) {
+                m.speed *= -1;
+            }
+        }
+    }
+
+    class MyPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            for (Monster m : monsters) {
+                m.draw(g);
+            }
+        }
+    }
+}
+
+public class main {
+    public static void main(String[] args) {
+        MyFrame f = new MyFrame();
+    }
+}

@@ -1,0 +1,6 @@
+package main;
+
+public class Monologue {
+	int face;
+	String monologue;
+}

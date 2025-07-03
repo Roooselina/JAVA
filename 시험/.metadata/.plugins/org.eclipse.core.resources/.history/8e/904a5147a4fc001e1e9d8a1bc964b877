@@ -1,0 +1,29 @@
+package 시험;
+
+interface Controllable{
+	void play();
+	void stop();
+}
+class VideoPlyaer implements Controllable{
+
+	@Override
+	public void play() {
+		System.out.println("시작");
+	}
+
+	@Override
+	public void stop() {
+		System.out.println("중단");
+	}
+	
+}
+
+public class test {
+
+	public static void main(String[] args) {
+		VideoPlyaer c = new VideoPlyaer();
+		c.play();
+		c.stop();
+	}
+}
+

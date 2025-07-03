@@ -1,0 +1,20 @@
+package Dialogue;
+
+public class Monologue extends SuperDialogue {
+	public SuperDialogue[] monologues;
+    public Monologue() {
+        monologues = new SuperDialogue[3];
+        
+        monologues[0] = new SuperDialogue();
+        monologues[0].monologue = "이곳이 그 문제의 동굴이군...";
+        monologues[0].face = 2;
+        
+        monologues[1] = new SuperDialogue();
+        monologues[1].monologue = "꺼림찍한 기분이 들어...";
+        monologues[1].face = 2;
+        
+        monologues[2] = new SuperDialogue();
+        monologues[2].monologue = "이 동굴 안을 탐색해보자";
+        monologues[2].face = 1;
+    }
+}

@@ -1,0 +1,57 @@
+package 시험;
+
+interface Animal{
+	void walk();
+	void fly();
+	void sing();
+}
+
+interface Drawable{
+	void draw();
+}
+class Bird implements Animal{
+	String name;
+	
+	Bird(){
+		this.name="Bird";
+	}
+	@Override
+	public void walk() {
+		System.out.println(name+"은 걸을 수 있음");
+	}
+
+	@Override
+	public void fly() {
+		System.out.println("걸을 수 있음");
+	}
+
+	@Override
+	public void sing() {
+		System.out.println("노래할 수 있음");
+	}
+}
+
+class Duck extends Bird implements Drawable{
+
+	Duck() {
+		super();
+		this.name="Duck";
+	}
+
+	@Override
+	public void draw() {
+		System.out.println("그릴 수 있음");
+	}
+	
+}
+
+public class test {
+
+	public static void main(String[] args) {
+		Duck c = new Duck();
+		c.walk();
+		c.fly();
+		c.sing();
+	}
+}
+

@@ -1,0 +1,167 @@
+package Entity;
+
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
+import main.GamePanel;
+
+public class CommonEntity {
+    GamePanel gp;
+
+    public int worldX, worldY;
+    public int speed;
+    public int HP;
+    public int MP;
+    public String name;
+
+    public BufferedImage st1, st2, st3, st4, right1, right2, right3, right4, left1, left2, left3, left4;
+    public String direction;
+
+    // 체력 변수
+    public int maxLife;
+    public int life;
+
+    // 스프라이트 변경할 변수들
+    public int spriteCounter = 0; // 12 fps마다 이미지 변경
+    public int spriteNum = 1; // 스프라이트 번호
+    public int soundRestTerm = 0;
+
+    // 충돌 감지 사각형
+    public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public boolean collisionOn = false;
+
+    // 객체 이벤트 처리
+    public int solidAreaDefaultX, solidAreaDefaultY;
+
+    public CommonEntity(GamePanel gp) {
+        this.gp = gp;
+        this.direction = "down"; // 초기 방향 설정
+        
+        // 충돌 영역 설정
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+    }
+
+    // 몬스터 움직임 제어 변수
+    protected int actionLockerCounter = 0;
+
+    // 대사 처리 함수
+    String dialogues[] = new String[30];
+
+    public void setAction() {
+        // 기본 방향 설정
+        if (direction == null) {
+            direction = "down";
+        }
+    }
+
+    public void update() {
+        setAction();
+
+        spriteCounter++;
+        if (spriteCounter > 12) {
+            spriteNum = (spriteNum % 4) + 1;
+            spriteCounter = 0;
+        }
+
+        collisionOn = false;
+        gp.cChecker.CheckTile(this);
+        
+
+        // 충돌이 발생하지 않은 경우, 캐릭터의 위치를 업데이트합니다.
+        if (!collisionOn) {
+            switch (direction) {
+            case "up":
+                worldY -= speed;
+                break;
+            case "down":
+                worldY += speed;
+                break;
+            case "left":
+                worldX -= speed;
+                break;
+            case "right":
+                worldX += speed;
+                break;
+            }
+        }
+    }
+
+    public void draw(Graphics2D g2) {
+        BufferedImage image = null;
+        // 객체를 화면에 그리기 위해 화면 좌표를 계산합니다.
+        int screenX = worldX - gp.player.worldX + gp.player.screenX;
+        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+     // 방향에 따라 이미지 선택
+	    BufferedImage image1 = null;
+	    
+	    switch (direction) {
+	        case ("nothing") -> {
+	            // 정지 상태일 때 이미지 선택
+	            if (spriteNum == 1)
+	                image1 = st1;
+	            else if (spriteNum == 2)
+	                image1 = st2;
+	            else if (spriteNum == 3)
+	                image1 = st3;
+	            else if (spriteNum == 4)
+	                image1 = st4;
+	            break;
+	        }
+	        case ("up") -> {
+	            // 위쪽 이동 상태일 때 이미지 선택
+	            if (spriteNum == 1)
+	                image1 = right1;
+	            else if (spriteNum == 2)
+	                image1 = right2;
+	            else if (spriteNum == 3)
+	                image1 = right3;
+	            else if (spriteNum == 4)
+	                image1 = right4;
+	            break;
+	        }
+	        case ("down") -> {
+	            // 아래쪽 이동 상태일 때 이미지 선택
+	            if (spriteNum == 1)
+	                image1 = right1;
+	            else if (spriteNum == 2)
+	                image1 = right2;
+	            else if (spriteNum == 3)
+	                image1 = right3;
+	            else if (spriteNum == 4)
+	                image1 = right4;
+	            break;
+	        }
+	        case ("right") -> {
+	            // 오른쪽 이동 상태일 때 이미지 선택
+	            if (spriteNum == 1)
+	                image1 = right1;
+	            else if (spriteNum == 2)
+	                image1 = right2;
+	            else if (spriteNum == 3)
+	                image1 = right3;
+	            else if (spriteNum == 4)
+	                image1 = right4;
+	            break;
+	        }
+	        case ("left") -> {
+	            // 왼쪽 이동 상태일 때 이미지 선택
+	            if (spriteNum == 1)
+	                image1 = left1;
+	            else if (spriteNum == 2)
+	                image1 = left2;
+	            else if (spriteNum == 3)
+	                image1 = left3;
+	            else if (spriteNum == 4)
+	                image1 = left4;
+	            break;
+	        }
+	    }
+
+        // 이미지 그리기
+        g2.drawImage(image1, screenX, screenY, gp.getOrigianlCharacterSize(), gp.getOrigianlCharacterSize(), null);
+    }
+}
+

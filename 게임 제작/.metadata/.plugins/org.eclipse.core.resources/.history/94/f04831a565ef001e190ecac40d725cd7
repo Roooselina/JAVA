@@ -1,0 +1,91 @@
+package game;
+
+public class Script {
+
+	// TODO Auto-generated method stub
+	
+	public static void MainScreen() {
+		System.out.println("=================================\n");
+		System.out.println("    타임 오브 이비르: 황혼의 땅\n\n");
+		System.out.println("     제작자: 20234014 컴퓨터 공학과 이은정");
+		System.out.println("=================================\n");
+
+		System.out.print("  1. 게임 시작      2. 게임 종료\n");
+		System.out.print("행동을 입력해주세요: ");
+	}
+	
+	public static void GameStartInfo() {
+		System.out.println("\n이비르 대륙, 신비로운 마법과 위험한 몬스터로 가득한 이곳");
+		System.out.println("당신은 자신만의 전설을 쓰기 위해 모험에 나서는 용감한 모험가입니다.");
+		System.out.println("이야기의 시작은 작은 마을. 당신은 이곳에서 주변의 몬스터들이 사람들을 위협하고 있는 소식을 듣게 됩니다.");
+		System.out.println("마을 주민들이 불안한 표정으로 이야기합니다.");
+		System.out.println("'숲에서 이상한 몬스터들이 나타나 마을을 위협하고 있어... 도움이 필요해'\n");
+		System.out.println("당신은 고민합니다.");
+
+		System.out.println("  1. 마을으로 간다    2. 돌아가기\n");
+	}
+	
+	public static void DenyGameStart() {
+		System.out.println("당신은 이런 마을이 아닌 다른 곳에서 더 많은 기회를 찾기로 결심합니다.");
+		System.out.println("당신은 당신의 길드원들과 함께 길을 떠납니다.");
+	}
+	
+	public static void TownInfo() {
+		System.out.println("당신은 이비르 대륙의 작은 마을에 도착했습니다.");
+		System.out.println("마을은 농사를 짓고, 장사를 하는 사람들로 북적입니다. 당신은 주변을 둘러봅니다.");
+		System.out.println("마을에는 큰 주점과 여러 의뢰서가 붙은 게시판 그리고 갖가지 물건을 늘여놓고 장사를 하고 있는 장사꾼들이 보입니다.");
+		System.out.println("당신은 무슨 행동을 하시겠습니까?\n");
+
+		System.out.print("1. 주점에 방문    2. 게시판 살펴보기	3. 상점 방문	4. 이장 집 방문	   ");
+	}
+
+	public static void visit_top() {
+		System.out.println("당신과 당신의 길드는 이장의 집에 방문했습니다.");
+		System.out.println("'어서 오십시오! 여행자님!'");
+		System.out.println("이장이 당신들을 환영합니다. 이장이 말을 이어 나갑니다.");
+		System.out.println("'최근 몬스터의 수가 너무 많이 늘었어요. 마을사람들도 몬스터에게 공격을 받고 있습니다.'");
+		System.out.println("'혹시 여행자님께서 그 몬스터들을 처리해 주실 수 있겠습니까?'");
+		System.out.println("이장이 부탁합니다.\n");
+
+		System.out.println("1. 제안을 받아들이기    2. 제안을 거절하기\n");
+
+	}
+	
+    public static void TownVisitOptions() {
+        System.out.println("1. 제안을 받아들이기    2. 제안을 거절하기\n");
+    }
+    
+    public static void AcceptTown() {
+		System.out.println("이장은 눈에 띄게 기뻐합니다.");
+		System.out.println("'아이고! 감사합니다, 여행자님!'");
+		System.out.println("이장이 당신의 손을 잡고 흔들며 감사 인사를 전합니다.");
+		System.out.println("'그렇다면 여행자님의 성함을 알려주시겠습니까?\n'");
+    }
+    
+    public static void StoreInfo() {
+		System.out.println("당신은 시장으로 나아갔다. 여러 상인들이 무기와 포션을 늘어놓고 팔고 있습니다.");
+		System.out.println("당신은 무엇을 파는지 살펴보았습니다.\n");
+    }
+    
+    public static void PubInfo() {
+		System.out.println("당신들은 마을의 주점으로 발걸음을 옮겼습니다. 따뜻한 불빛을 맞으며 들어간 주점은 사람들로 붐볐습니다. ");
+		System.out.println("어느 테이블에서는 활기차게 이야기를 나누는 소리가 들리고, 다른 곳에서는 웃음 소리가 퍼져나갔습니다.");
+		System.out.println("당신은 주점 안을 살피다 바를 발견할 수 있었습니다.");
+		System.out.println("당신은 바의 바텐더에게 다가갑니다. 바텐더가 당신을 흘끔 쳐다봅니다.");
+		
+    }
+    
+    public static void choosetemper() {
+		System.out.println("당신은 숲의 끝에 다다랐다. 당신은 2갈래 갈림길을 만났다.");
+		System.out.println("당신은 으스스한 기운이 흘러 나오는 갈림길을 바라보았다. 당신은 어떻게 할 것인가\n");
+    }
+    
+    public static void Pubforest() {
+    	System.out.println("'당신네들은 여행자인가?', 바텐더가 당신을 흘끔 쳐다봅니다.");
+    	System.out.println("'어쩌면 그 소문을 듣고 온 용병일지도 모르겠군'.");
+		System.out.println("'요즘 숲 속에 여러 몬스터가 등장한다는 이야기가 돌고 있소. 숲속에 방문해 보는 것은 어떻소?'");
+		System.out.println("바텐더는 눈길도 주지 않은채 수건으로 잔을 닦으며 말했습니다.");
+		System.out.println("'어쩌면 거기에서 당신은 특별한 것을 발견할지도 모르지, 안그렇소?', 그의 목소리는 저주받은 숲의 공포와 함께 적막함을 자아내었습니다.");
+		System.out.println("당신은 고개를 끄덕이며 감사를 전합니다.");
+    }
+}

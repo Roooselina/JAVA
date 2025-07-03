@@ -1,0 +1,319 @@
+package main;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
+
+import Entity.CommonEntity;
+import Entity.Player;
+import Object.SuperObjects;
+import Tile.TileManager;
+
+public class GamePanel extends JPanel implements Runnable {
+
+	// SCREEN SETTING
+	Font font = new Font("빛의 계승자 Bold", Font.BOLD, 30); // 게임에서 사용할 폰트 설정
+
+	final int origianlCharacterSize = 50; // 각 캐릭터의 기본 크기 (픽셀)
+	final int maxScreenCol = 25; // 화면의 최대 열 수
+	final int maxScreenRow = 25;
+			; // 화면의 최대 행 수
+
+	/**
+	 * 계획을 변경해서 캐릭터가 움직이지 않고, 배경이 움직일 수 있도록 하겠다.
+	 * 
+	 */
+
+	public int getOrigianlCharacterSize() {
+		return origianlCharacterSize;
+	}
+
+	public int getMaxScreenCol() {
+		return maxScreenCol;
+	}
+
+	public int getMaxScreenRow() {
+		return maxScreenRow;
+	}
+
+	public int getMaxWorldCol() {
+		return maxWorldCol;
+	}
+
+	public int getMaxWorldRow() {
+		return maxWorldRow;
+	}
+
+	public final int screenWidth = maxScreenCol * origianlCharacterSize; // 1200 - 화면의 가로 길이 (픽셀)
+	public final int screenHeight = maxScreenRow * origianlCharacterSize; // 750 - 화면의 세로 길이 (픽셀)
+
+	public final int maxWorldCol = 38;
+	public final int maxWorldRow = 30;
+	public final int worldWidth = getOrigianlCharacterSize() * maxWorldCol;
+	public final int worldHeight = getOrigianlCharacterSize() * maxWorldRow;
+
+	// 키 핸들러
+	KeyHandler keyH = new KeyHandler(this);
+
+	// 충돌 감지 인스턴스
+	public CollisionChecker cChecker = new CollisionChecker(this);
+
+	// 게임 플레이어 인스턴스
+	public Player player = new Player(this, keyH);
+
+	// 타일 관리자
+	public TileManager tileM = new TileManager(this);
+
+	
+	// 오브젝트(상자 같은 것들) 관리자
+	public SuperObjects obj[] = new SuperObjects[100];
+	// 오브젝트를 맵에 표시하는 관리자
+	ObjectSetter objectSetter = new ObjectSetter(this);
+	
+	//몬스터 관리자
+	public CommonEntity monster[] = new CommonEntity[20];
+	
+	
+
+	// 음악 관리자
+	Sound sound = new Sound();
+
+	// 게임 텍스트 메시지 팝업 폰트 관리자
+	public UI ui = new UI(this);
+
+	// 게임 루프를 실행하기 위한 스레드
+	Thread gameThread;
+
+	//게임 이벤트 처리 관리자
+	public EventHandler eHandler = new EventHandler(this);
+	
+	//캐릭터 그리기 관리자
+	SuperPlayerImg playerImages = new SuperPlayerImg();
+	
+	// 게임 상태 확인 변수
+	public int gameState;
+	public final int titleState = 0;
+	public final int ScriptState = 1;
+	public final int playState = 2;
+	public final int pauseState = 3;
+	public final int startMonologue = 4;
+	public final int dialogueState=5;
+	public final int battleState = 6;
+
+	/**
+	 * 스레드 : 여러 스레드를 사용하여 프로그램의 여러 부분을 동시에 실행[멀티 태스킹] 게임 루프와 같이 주기적으로 업데이트가 필요한 작업을
+	 * 수행 여기서는 게임 상태 업데이트에 사용할 예정
+	 **/
+
+	public GamePanel() {
+		this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // 패널의 크기를 설정
+		this.setBackground(Color.BLACK); // 배경색을 검정색으로 설정
+		this.setDoubleBuffered(true); // 더블 버퍼링을 활성화하여 그래픽의 깜빡임을 줄이고 부드럽게 렌더링되도록 설정
+		this.addKeyListener(keyH); // 키 입력을 처리해줄 핸들러 추가
+		this.setFocusable(true); // 패널이 키 입력을 받을 수 있도록 설정
+	}
+
+	public void setupGame() {
+		// 게임 오브젝트, NPC 및 몬스터 설정
+		objectSetter.setObject();
+		objectSetter.setMonster();
+
+		// 배경 음악 재생
+		playMusic(1);
+
+		// 게임 상태를 타이틀 상태로 설정
+		gameState = titleState;
+
+		// 게임 상태에 따라 화면 크기 설정
+		adjustScreenSize();
+	}
+
+	// 화면 크기를 조절하는 메서드
+	public void adjustScreenSize() {
+		if (gameState == titleState) {
+			int titleWidth = 800;
+			int titleHeight = 600;
+			GameScreen.window.setSize(titleWidth, titleHeight);
+			GameScreen.window.setLocationRelativeTo(null); // 화면 가운데로 위치
+		} else if (gameState == playState) {
+			GameScreen.window.setSize(screenWidth, screenHeight);
+			GameScreen.window.setLocation(85, 0); // 절대 위치 (50, 0)로 설정
+		} else if (gameState == dialogueState) {
+			int dialogueWidth = 800;
+			int dialogueHeight = 600;
+			GameScreen.window.setSize(dialogueWidth, dialogueHeight);
+			GameScreen.window.setLocationRelativeTo(null); // 화면 가운데로 위치
+		} else if (gameState == gameState) {
+			int dialogueWidth = 800;
+			int dialogueHeight = 600;
+			GameScreen.window.setSize(dialogueWidth, dialogueHeight);
+		}
+	}
+
+	public void startGameThread() {
+		gameThread = new Thread(this); // 새로운 스레드를 생성하여 현재 객체(this)를 Runnable로 전달
+		gameThread.start(); // 스레드 시작
+	}
+
+	@Override
+	public void run() {
+		while (gameThread != null) {
+
+			int FPS = 60;
+			double drawInterval = 1000000000 / FPS; // 0.0166 sec
+			double nextDrawTime = System.nanoTime() + drawInterval; // 1 FPS를 쉬고 나서 그림
+
+			/**
+			 * long currentTime = System.nanoTime(); long currentTime2 =
+			 * System.currentTimeMillis();
+			 * 
+			 * currentTime이 훨씬 정확하다.
+			 * 
+			 * System.nanoTime()은 현재 시간을 나노초 단위로 측정하여 반환 매우 짧은 시간 간격을 측정하는 데 적합함 EX) 성능 테스트나
+			 * 애니메이션 프레임 계산 등
+			 *
+			 * 반면에 System.currentTimeMillis()는 현재 시간을 밀리초 단위로 측정하여 반환 시스템 시계 (epoch time)와
+			 * 연관되어 있으며, 일반적으로 이벤트 타임스탬프, 로깅, 시간 간격이 비교적 길 때 사용
+			 * 
+			 * System.nanoTime()은 매우 짧은 시간 간격을 측정할 때 더 정확도가 높다 System.currentTimeMillis()는
+			 * 시스템 시계의 시간을 필요로 하는 경우에 적합
+			 */
+
+			// 1 게임 업데이트
+			update();
+
+			/**
+			 * 중간에 쉬어주지 않으면 컴포넌트가 cpu 연산 속도번 만큼 움직인다.ㅈ FPS를 설정해준다.
+			 **/
+
+			// 2 다시 그리기
+			repaint();
+
+			try {
+
+				double remainTime = nextDrawTime - System.nanoTime();
+				/**
+				 * nextDrawTime과 현재 시간(System.nanoTime())의 차이를 계산 다음 프레임을 그리기까지 남은 시간을 나노초 단위로
+				 * 나타냄
+				 **/
+
+				remainTime = remainTime / 1000000; // 단위 변환 (나노초 -> 밀리초)
+				/**
+				 * remainTime은 나노초 단위로 계산되었기 때문에, 이를 밀리초 단위로 변환 Thread.sleep 메서드는 매개변수로 밀리초 단위를
+				 * 사용하기 때문에 단위 변환이 필요 나노초를 밀리초로 변환하기 위해 1,000,000으로 나눔 (1 밀리초 = 1,000,000 나노초).
+				 **/
+
+				if (remainTime < 0)
+					remainTime = 0;
+				/**
+				 * 만약 remainTime이 음수라면, 이는 nextDrawTime이 이미 지난 상태 이 경우 대기 시간을 0으로 설정
+				 **/
+
+				Thread.sleep((long) remainTime);
+				// 스레드는 remainTime 밀리초 동안 일시 중지
+
+				nextDrawTime += drawInterval;
+				// 시간이 지났으니 다시 설정해줌
+
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+				/**
+				 * 반드시 try catch문을 사용해야 하는 이유: Thread.sleep 메서드는 지정된 시간 동안 현재 스레드를 일시 중지(sleep)
+				 * 역할을 함 이 메서드는 InterruptedException을 발생시킬 수 있음
+				 * 
+				 * ex. 제대로 된 값 넘어오지 않음, 단위 이상함
+				 **/
+			}
+
+		}
+	}
+
+	public void update() {
+		if (gameState == playState) {
+			player.update();
+
+			for (int i = 0; i < monster.length; i++) {
+				if (monster[i] != null) {
+					monster[i].update();
+					// 몬스터 감지
+					int monsterCheckIndex = cChecker.checkEntity(player, monster[i]);
+					battleState(monsterCheckIndex , monster[i]);
+				}
+
+			}
+		} else if (gameState == pauseState) {
+			// 아무 동작도 실행하지 않는다.
+		}
+	}
+	
+	public void battleState(int i, CommonEntity entity) {
+		if (i != 999) {
+			gameState = battleState;
+			monster[i] = null;
+			
+		}
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+
+		if (gameState == titleState) {
+			// UI 그리기
+			ui.draw(g2);
+		} else if (gameState == ScriptState) {
+			// UI 그리기
+			ui.draw(g2);
+		} else {
+			// 타일 그리기
+			tileM.draw(g2);
+
+			// 오브젝트 그리기
+			for (int i = 0; i < obj.length; i++) {
+				if (obj[i] != null)
+					obj[i].draw(g2, this);
+			}
+
+			// 오브젝트 그리기
+			for (int i = 0; i < monster.length; i++) {
+				if (monster[i] != null)
+					monster[i].draw(g2);
+			}
+
+			// 플레이어 그리기
+			player.draw(g2);
+
+			// 투명도 50% 검정색 사각형 그리기
+			g2.setColor(new Color(0, 0, 0, 128)); // 검정색 (RGB: 0, 0, 0), 투명도 50%
+			g2.fillRect(0, 0, getWidth(), getHeight()); // 패널 전체를 채우는 사각형 그리기
+
+			// UI 그리기
+			ui.draw(g2);
+
+			ui.drawPause(g2); // PAUSE 메시지는 잘 보여야 하므로 사각형 이후에 그린다.
+
+			g2.dispose();
+		}
+	}
+
+	public void playMusic(int i) {
+		sound.setFile(i);
+		sound.play();
+		sound.loop();
+	}
+
+	public void stopMusic() {
+		sound.stop();
+	}
+
+	public void playSE(int i) {
+		sound.setFile(i);
+		sound.play();
+	}
+}

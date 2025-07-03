@@ -1,0 +1,18 @@
+package Object;
+
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class OBJ_Handler extends SuperObjects {
+	public OBJ_Handler(){
+		
+		name = "닫힌 상자";
+		try {
+			image = ImageIO.read(getClass().getResourceAsStream("/Objects/닫힌 상자.png"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,21 @@
+package main;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+public class SuperPlayerImg {
+	
+	BufferedImage playerImg[] = new BufferedImage[4];
+	
+	public SuperPlayerImg () {
+		try {
+			playerImg[0] = ImageIO.read(getClass().getResourceAsStream("/playerImg/일반.png"));
+			playerImg[1] = ImageIO.read(getClass().getResourceAsStream("/playerImg/흐음.png"));
+			playerImg[2] = ImageIO.read(getClass().getResourceAsStream("/playerImg/다침.png"));
+			playerImg[3] = ImageIO.read(getClass().getResourceAsStream("/playerImg/많이다침.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

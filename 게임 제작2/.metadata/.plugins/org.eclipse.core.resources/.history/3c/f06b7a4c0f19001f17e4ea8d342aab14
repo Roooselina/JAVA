@@ -1,0 +1,15 @@
+package main;
+
+import Object.OBJ_Handler;
+
+public class ObjectSetter {
+	GamePanel gp;
+	
+	public ObjectSetter(GamePanel gp) {
+		this.gp = gp;
+	}
+	
+	public void setObject() {
+		gp.obj[0] = new OBJ_Handler();
+	}
+}

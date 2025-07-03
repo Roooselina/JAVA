@@ -1,0 +1,61 @@
+package 교과서;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+
+class myPanel extends JPanel{
+	JLabel t;
+	JPanel color;
+	public myPanel(String text , Color c){
+		this.setLayout(new BorderLayout(20, 20));
+		
+		t = new JLabel(text);
+		color = new JPanel();
+		color.setBackground(c);
+		
+		this.add(t, BorderLayout.NORTH);
+		this.add(color, BorderLayout.CENTER);
+		
+		this.setVisible(true);
+	}
+}
+
+class MyClass extends JFrame {
+	JButton yes;
+	JTextField tf;
+	JLabel text;
+	
+	public MyClass() {
+		this.setTitle("My Frame");
+		this.setSize(600, 200);
+		this.setLayout(new BorderLayout());
+		
+		JPanel panel1 = new JPanel();		
+		panel1.setLayout(new GridLayout(1,5));
+
+		//
+		myPanel fir = new myPanel("Red", Color.red);
+		fir.color.setBackground(Color.red);
+		//
+		panel1.add(fir);
+		
+		this.add(panel1);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+}
+public class Main extends JFrame{
+    public static void main(String[] args) {
+    	MyClass N = new MyClass();
+    }
+}
+

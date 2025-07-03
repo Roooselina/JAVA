@@ -1,0 +1,27 @@
+package 교과서_8_4;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+class myFrame extends JFrame{
+	JLabel text,t2,t3;
+	JTextField text1,text2;
+	JButton btn;
+	
+	myFrame(){
+		setTitle("BMI 계산기");
+		setSize(400,200);
+		
+		this.setLocationRelativeTo(null);
+		setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+}
+
+public class MAIN {
+	public static void main(String args[]) {
+		myFrame m = new myFrame();
+	}
+}

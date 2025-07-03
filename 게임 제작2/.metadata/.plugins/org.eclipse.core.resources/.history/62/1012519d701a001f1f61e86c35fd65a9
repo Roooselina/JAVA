@@ -1,0 +1,99 @@
+package main;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class KeyHandler implements KeyListener {
+    public boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed;
+    GamePanel gp;
+
+    // KeyHandler 생성자
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
+
+    // 키를 누르는 동작에 대한 이벤트 처리
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+
+        if (gp.gameState == gp.titleState) {
+            if (code == KeyEvent.VK_UP) {
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum < 0) {
+                    gp.ui.commandNum = 2;
+                }
+            } else if (code == KeyEvent.VK_DOWN) {
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum > 2) {
+                    gp.ui.commandNum = 0;
+                }
+            }
+        
+        // W 키 눌렀을 때
+        if (code == KeyEvent.VK_W) {
+            upPressed = true;
+        } 
+        // A 키 눌렀을 때
+        else if (code == KeyEvent.VK_A) {
+            leftPressed = true;
+        } 
+        // S 키 눌렀을 때
+        else if (code == KeyEvent.VK_S) {
+            downPressed = true;
+        } 
+        // D 키 눌렀을 때
+        else if (code == KeyEvent.VK_D) {
+            rightPressed = true;
+        } 
+        // Space 키 눌렀을 때
+        else if (code == KeyEvent.VK_SPACE) {
+            spacePressed = true;
+        } 
+        // ESC 키 눌렀을 때
+        else if (code == KeyEvent.VK_ESCAPE) {
+            // 게임 상태를 전환합니다.
+            if (gp.gameState == gp.playState)
+                gp.gameState = gp.pauseState;
+            else if (gp.gameState == gp.pauseState)
+                gp.gameState = gp.playState;
+        }
+        
+        
+        
+        
+    }
+
+    // 키를 뗀 동작에 대한 이벤트 처리
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode();
+
+        // W 키를 뗐을 때
+        if (code == KeyEvent.VK_W) {
+            upPressed = false;
+        } 
+        // A 키를 뗐을 때
+        else if (code == KeyEvent.VK_A) {
+            leftPressed = false;
+        } 
+        // S 키를 뗐을 때
+        else if (code == KeyEvent.VK_S) {
+            downPressed = false;
+        } 
+        // D 키를 뗐을 때
+        else if (code == KeyEvent.VK_D) {
+            rightPressed = false;
+        } 
+        // Space 키를 뗐을 때
+        else if (code == KeyEvent.VK_SPACE) {
+            spacePressed = false;
+        }
+    }
+
+    // 키를 타이핑할 때의 이벤트 처리
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // 이 메서드는 사용 X
+    }
+}

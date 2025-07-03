@@ -1,0 +1,152 @@
+package library;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+//Book 클래스: 도서 정보를 나타내는 클래스
+
+class Item {
+
+	private String title;
+	private int price;
+
+	public Item(String title, int price) {
+		super();
+		this.title = title;
+		this.price = price;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+}
+
+class ShoppingCart {
+	private ArrayList<Item> items;
+
+	// 생성자
+	public void BookManagement() {
+		this.items = new ArrayList<>();
+	}
+
+	// 물품 추가
+	public void addItem(Item item) {
+		items.add(item);
+	}
+
+	// 물품 삭제
+	public boolean removeItem(String title) {
+		boolean presence = false;
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getTitle().equals(title)) {
+				System.out.println("도서 삭제: " + items.get(i).getTitle());
+				items.remove(i);
+				presence = true;
+				return presence;
+			}
+		}
+		return presence;
+	}
+
+	public int calprice() {
+		int price = 0;
+		for (int i = 0; i < items.size(); i++) {
+			price += items.get(i).getPrice();
+		}
+		return price;
+	}
+
+	public void deleteItem() {
+		items.clear();
+	}
+
+}
+
+public class Shopping {
+	public static void main(String[] args) {
+
+		// TODO Auto-generated method stub
+		int input;
+		String name;
+		int price;
+
+		Item item;
+		ShoppingCart shoppingcart;
+		shoppingcart = new ShoppingCart();
+		shoppingcart.BookManagement();
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("\n순천향 쇼핑센터입니다.");
+			System.out.println("원하는 서비스를 선택해 주십시오");
+			System.out.println("1.상품 추가 2.상품 삭제 3.총 가격 계산 4.장바구니 비우기 5.서비스 종료\n");
+			System.out.println("==================================================");
+			System.out.print("입력: ");
+
+			input = sc.nextInt();
+
+			if (input == 1) {
+				System.out.println("\n추가할 상품의 정보를 입력해 주십시오");
+
+				System.out.print("품명: ");
+				name = sc.next();
+				System.out.print("가격: ");
+				price = sc.nextInt();
+				sc.nextLine(); // 버퍼 비우기
+
+				shoppingcart.addItem(new Item(name, price));
+				System.out.println("\n==================================================");
+				System.out.println("물품이 장바구니에 담겼습니다.");
+			}
+
+			else if (input == 2) {
+				boolean result;
+
+				System.out.println("\n삭제할 도서의 정보를 입력해 주십시오");
+
+				System.out.print("품명: ");
+				name = sc.next();
+
+				result = shoppingcart.removeItem(name);
+				if (result == false) {
+					System.out.println("해당 물품이 존재하지 않습니다.");
+				} else {
+					System.out.println("\n==================================================");
+					System.out.println("물품이 정상적으로 삭제되었습니다.");
+				}
+
+			}
+
+			else if (input == 3) {
+				price = shoppingcart.calprice();
+				System.out.print("\n총 물건의 가격은 " + price + "입니다.");
+			}
+
+			else if (input == 4) {
+				price = shoppingcart.calprice();
+				System.out.print("장바구니를 전부 비웠습니다.");
+			}
+
+			else {
+				System.out.println("\n==================================================");
+				System.out.println("\n서비스를 이용해주셔서 감사합니다. 서비스를 종료합니다.");
+				break;
+			}
+
+		} while (true);
+	}
+
+}

@@ -1,0 +1,16 @@
+package main;
+
+import math.Calculator;
+
+public class Test extends Calculator {
+	public static void main(String[] args) {
+		Calculator calc = new Calculator();
+
+		int sum = calc.add(5, 3);
+		System.out.println("5 + 3 = " + sum);
+		
+		int sub = calc.subtract(5, 3);
+		System.out.println("5 - 3 = " + sub);
+
+	}
+}

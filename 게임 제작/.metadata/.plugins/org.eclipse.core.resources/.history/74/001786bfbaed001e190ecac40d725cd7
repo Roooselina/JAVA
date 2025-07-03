@@ -1,0 +1,18 @@
+package game;
+
+public class Script {
+
+		// TODO Auto-generated method stub
+		 public static void visit_top() {
+			System.out.println("당신과 당신의 길드는 이장의 집에 방문했습니다.");
+			System.out.println("'어서 오십시오! 여행자님!'");
+			System.out.println("이장이 당신들을 환영합니다. 이장이 말을 이어 나갑니다.");
+			System.out.println("'최근 몬스터의 수가 너무 많이 늘었어요. 마을사람들도 몬스터에게 공격을 받고 있습니다.'");
+			System.out.println("'혹시 여행자님께서 그 몬스터들을 처리해 주실 수 있겠습니까?'");
+			System.out.println("이장이 부탁합니다.\n");
+
+			System.out.println("1. 제안을 받아들이기    2. 제안을 거절하기\n");
+	
+
+}
+}

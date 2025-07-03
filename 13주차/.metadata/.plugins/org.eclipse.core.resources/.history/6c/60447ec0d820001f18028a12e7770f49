@@ -1,0 +1,66 @@
+package week12_04;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+class Monster {
+	int x, y, hp;
+	Image img;
+
+	Monster(int x, int y, int hp) {
+		this.x = x;
+		this.y = y;
+		this.hp = hp;
+		ImageIcon icon = new ImageIcon("Image/monster.png");
+		img = icon.getImage();
+	}
+
+	public void draw(Graphics g) {
+		g.drawImage(img, x, y, null);
+	}
+}
+
+class MyFrame extends JFrame {
+	static ArrayList<Monster> monsters;
+
+	MyFrame() {
+		monsters = new ArrayList<Monster>();
+		this.setTitle("Monster Catch Game");
+		this.setSize(700, 300);
+		
+		for (int i = 0; i <= 10; i++) {
+			monsters.add(new Monster((int) (Math.random() * 600), (int) (Math.random() * 200), 1));
+		}
+		
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int x= e.getX();
+				int y= e.getY();
+				for(Monster m: monsters)
+					if( x==m.x && y==m.y) {
+						monsters.remove(m);
+					}
+						}
+			});
+		
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+}
+
+public class main {
+
+	public static void main(String[] args) {
+		MyFrame f = new MyFrame();
+
+	}
+
+}

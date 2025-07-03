@@ -1,0 +1,57 @@
+package Tile;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TileRead {
+
+	String Cave1 = "gameBackground/동굴1.txt"; // 파일 경로 설정
+    int[][] matrix;
+
+    // 생성자
+    public TileRead() {
+        this.matrix = readMatrixFromFile(Cave1);
+    }
+
+    public int[][] readMatrixFromFile(String filePath) {
+        List<int[]> matrixList = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] tokens = line.split("");
+                int[] row = new int[tokens.length];
+                for (int i = 0; i < tokens.length; i++) {
+                    row[i] = Integer.parseInt(tokens[i]);
+                }
+                matrixList.add(row);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // List를 2차원 배열로 변환
+        int rows = matrixList.size();
+        int cols = matrixList.get(0).length;
+        int[][] matrix = new int[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            matrix[i] = matrixList.get(i);
+        }
+
+        return matrix;
+    }
+
+    // 행렬을 출력하는 메서드 (디버깅 용도로 추가)
+    public void printMatrix() {
+        for (int[] row : matrix) {
+            for (int col : row) {
+                System.out.print(col + " ");
+            }
+            System.out.println();
+        }
+    }
+    
+}

@@ -1,0 +1,201 @@
+package main;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class KeyHandler extends UI implements KeyListener {
+    public boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed, enterPressed;
+    GamePanel gp;
+
+    public KeyHandler(GamePanel gp) {
+    	super(gp);
+        this.gp = gp;
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+
+        if (gp.gameState == gp.titleState) 
+                handleTitleStateKeyPress(code);
+        if (gp.gameState == gp.ScriptState) 
+                handleScriptStateKeyPress(code);
+        if (gp.gameState == gp.startMonologue) 
+                handleStartMonologueKeyPress(code);
+        if (gp.gameState == gp.battleState) 
+                handleBattleStateKeyPress(code);
+        if (gp.gameState == gp.endState) 
+                handleEndStateKeyPress(code);
+        if (gp.gameState == gp.playState || gp.gameState ==gp.pauseState) 
+                handlePlayPauseKeyPress(code);
+        
+    }
+
+    private void handleTitleStateKeyPress(int code) {
+        if (code == KeyEvent.VK_UP) {
+            gp.ui.commandNum = (gp.ui.commandNum - 1 + 3) % 3;
+        } else if (code == KeyEvent.VK_DOWN) {
+            gp.ui.commandNum = (gp.ui.commandNum + 1) % 3;
+        } else if (code == KeyEvent.VK_ENTER) {
+            switch (gp.ui.commandNum) {
+                case 0:
+                    gp.gameState = gp.ScriptState;
+                    gp.ui.scriptNum = 0;
+                    gp.ui.commandNum = 0;
+                    break;
+                case 1:
+                    // Load Game logic here
+                    break;
+                case 2:
+                    System.exit(0);
+                    break;
+            }
+        }
+    }
+
+    private void handleScriptStateKeyPress(int code) {
+        if (code == KeyEvent.VK_SPACE) {
+            if (gp.ui.scriptNum < 3) {
+                gp.ui.scriptNum++;
+            } else {
+                gp.gameState = gp.startMonologue;
+                gp.adjustScreenSize();
+            }
+        }
+    }
+
+    private void handleStartMonologueKeyPress(int code) {
+        if (code == KeyEvent.VK_SPACE) {
+            if (gp.ui.dialogueIndex < 3) {
+                gp.ui.currentDialogue = gp.ui.mManager.monologues[gp.ui.dialogueIndex].monologue;
+                gp.ui.playerFace = gp.ui.mManager.monologues[gp.ui.dialogueIndex++].face;
+            } else {
+                gp.gameState = gp.playState;
+                gp.adjustScreenSize();
+                gp.stopMusic();
+                gp.playMusic(0);
+            }
+        }
+    }
+
+    private void handleBattleStateKeyPress(int code) {
+        if (code == KeyEvent.VK_UP) {
+            gp.ui.commandNum = (gp.ui.commandNum - 1 + 3) % 3;
+        } else if (code == KeyEvent.VK_DOWN) {
+            gp.ui.commandNum = (gp.ui.commandNum + 1) % 3;
+        } else if (code == KeyEvent.VK_ENTER) {
+            switch (gp.ui.commandNum) {
+                case 0:
+                    if (gp.battleManager.entity.speed>gp.player.speed) {
+                    	gp.ui.currentDialogue = gp.ui.mManager.battleMonologues[gp.ui.dialogueIndex].monologue;
+                    	gp.ui.draw(g2);
+                    }
+                    break;
+                case 1:
+                    // Item logic here
+                    break;
+                case 2:
+                    // Escape logic here
+                    gp.gameState = gp.playState;
+                    gp.stopMusic();
+                    gp.playMusic(0);
+                    gp.adjustScreenSize();
+                    break;
+            }
+        }
+    }
+
+    private void handleEndStateKeyPress(int code) {
+        if (code == KeyEvent.VK_SPACE && gp.ui.scriptNum < 3) {
+            gp.ui.scriptNum++;
+        } else if (gp.ui.scriptNum == 3) {
+            if (code == KeyEvent.VK_UP) {
+                gp.ui.commandNum = (gp.ui.commandNum - 1 + 2) % 2;
+            } else if (code == KeyEvent.VK_DOWN) {
+                gp.ui.commandNum = (gp.ui.commandNum + 1) % 2;
+            } else if (code == KeyEvent.VK_ENTER) {
+                if (gp.ui.commandNum == 0) {
+                    gp.gameState = gp.ScriptState;
+                    gp.ui.scriptNum = 0;
+                    gp.ui.commandNum = 0;
+                } else if (gp.ui.commandNum == 1) {
+                    gp.gameState = gp.titleState;
+                    gp.stopMusic();
+                    gp.playMusic(0);
+                    gp.adjustScreenSize();
+                }
+            }
+        }
+    }
+
+    private void handlePlayPauseKeyPress(int code) {
+        switch (code) {
+            case KeyEvent.VK_W:
+                upPressed = true;
+                break;
+            case KeyEvent.VK_A:
+                leftPressed = true;
+                break;
+            case KeyEvent.VK_S:
+                downPressed = true;
+                break;
+            case KeyEvent.VK_D:
+                rightPressed = true;
+                break;
+            case KeyEvent.VK_SPACE:
+                spacePressed = true;
+                break;
+            case KeyEvent.VK_ESCAPE:
+                gp.gameState = (gp.gameState == gp.playState) ? gp.pauseState : gp.playState;
+                break;
+        }
+    }
+
+    // 키를 뗀 동작에 대한 이벤트 처리
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode(); // 뗀 키의 코드를 가져옵니다.
+
+        // W 키를 뗐을 때
+        if (code == KeyEvent.VK_W) {
+            upPressed = false;
+        } 
+        // A 키를 뗐을 때
+        else if (code == KeyEvent.VK_A) {
+            leftPressed = false;
+        } 
+        // S 키를 뗐을 때
+        else if (code == KeyEvent.VK_S) {
+            downPressed = false;
+        } 
+        // D 키를 뗐을 때
+        else if (code == KeyEvent.VK_D) {
+            rightPressed = false;
+        } 
+        // Space 키를 뗐을 때
+        else if (code == KeyEvent.VK_SPACE) {
+            spacePressed = false;
+        } 
+        // Enter 키를 뗐을 때
+        else if (code == KeyEvent.VK_ENTER) {
+            enterPressed = false;
+        }
+    }
+
+    // 키를 타이핑할 때의 이벤트 처리
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // 이 메서드는 사용 X
+    }
+    public void waitForEnter() {
+        enterPressed = false;
+        while (!enterPressed) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+

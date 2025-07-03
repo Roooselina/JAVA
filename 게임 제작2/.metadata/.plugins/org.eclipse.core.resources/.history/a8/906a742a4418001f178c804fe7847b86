@@ -1,0 +1,42 @@
+package Tile;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import main.GamePanel;
+
+public class TileRead {
+
+    GamePanel gp;
+
+    public TileRead(GamePanel gp) {
+        this.gp = gp;
+    }
+
+    int[][] loadMap(String path) {
+        int[][] mapTileNum = new int[gp.getMaxScreenCol()][gp.getMaxScreenRow()];
+        try {
+            InputStream is = getClass().getResourceAsStream(path);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            int col = 0;
+            int row = 0;
+
+            while (row < gp.getMaxScreenRow()) {
+                String line = br.readLine();
+                String[] numbers = line.split("\t");
+                for (col = 0; col < gp.getMaxScreenCol(); col++) {
+                    int num = Integer.parseInt(numbers[col]);
+                    mapTileNum[col][row] = num;
+                }
+                row++;
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mapTileNum;
+    }
+}
+

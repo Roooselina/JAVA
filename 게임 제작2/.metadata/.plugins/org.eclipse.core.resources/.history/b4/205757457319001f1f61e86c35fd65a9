@@ -1,0 +1,21 @@
+package main;
+
+import Object.OBJ_KEY;
+
+public class ObjectSetter {
+	GamePanel gp;
+	
+	public ObjectSetter(GamePanel gp) {
+		this.gp = gp;
+	}
+	
+	public void setObject() {
+		gp.obj[0] = new OBJ_KEY();
+		gp.obj[0].worldX = 3 * gp.getOrigianlCharacterSize();
+		gp.obj[0].worldY = 2 * gp.getOrigianlCharacterSize();
+		
+		gp.obj[1] = new OBJ_KEY();
+		gp.obj[1].worldX = 3 * gp.getOrigianlCharacterSize();
+		gp.obj[1].worldY = 14 * gp.getOrigianlCharacterSize();
+	}
+}

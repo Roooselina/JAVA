@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\Users\kuroc\OneDrive\바탕 화면\과제\JAVA\시험\.metadata\.plugins\org.eclipse.jdt.core
+849445924.index
+1221663875.index
+1865797976.index

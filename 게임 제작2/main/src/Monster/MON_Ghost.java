@@ -1,0 +1,74 @@
+package Monster;
+
+
+import java.awt.Rectangle;
+import java.io.IOException;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+
+import Entity.CommonEntity;
+import main.GamePanel;
+
+public class MON_Ghost extends CommonEntity {
+    
+    public MON_Ghost(GamePanel gp) {
+        super(gp);
+
+        name = "귀신";
+        speed = 1;
+        maxLife = 4;
+        life = maxLife;
+        attack = 1;
+
+        getImage();
+        
+        
+        actionLockerCounter = 0;
+
+    }
+
+    public void getImage() {
+        try {
+            st1 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신1.png"));
+            st2 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신2.png"));
+            st3 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신3.png"));
+            st4 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신4.png"));
+            
+            
+            
+            left1 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신1 좌우반전.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신2 좌우반전.png"));
+            left3 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신3 좌우반전.png"));
+            left4 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신4 좌우반전.png"));
+            
+            right1 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신2.png"));
+            right3 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신3.png"));
+            right4 = ImageIO.read(getClass().getResourceAsStream("/monsters/귀신4.png"));
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setAction() {
+        actionLockerCounter += 1;
+
+        if (actionLockerCounter == 100) {
+            Random random = new Random();
+            int i = random.nextInt(100) + 1;
+
+            if (i <= 25)
+                direction = "up";
+            else if (i > 25 && i <= 50)
+                direction = "down";
+            else if (i > 50 && i <= 75)
+                direction = "left";
+            else
+                direction = "right";
+
+            actionLockerCounter = 0;
+        }
+    }
+}

@@ -1,0 +1,181 @@
+package library;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+//Book 클래스: 도서 정보를 나타내는 클래스
+
+class Book {
+
+	private String title;
+	private String author;
+	private String publisher;
+	private int price;
+
+	public Book(String title, String author, String publisher, int price) {
+		super();
+		this.title = title;
+		this.author = author;
+		this.publisher = publisher;
+		this.price = price;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+}
+
+// Library 클래스: 도서를 관리하는 클래스
+class Library {
+	private ArrayList<Book> books;
+	
+	// 생성자
+	public void BookManagement() {
+		this.books = new ArrayList<>();
+	}
+
+	// 도서 추가
+	public void addBook(Book book) {
+		books.add(book);
+	}
+
+	// 도서 삭제
+	public boolean removeBook(String title) {
+		boolean presence = false;
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getTitle().equals(title)) {
+				System.out.println("도서 삭제: " + books.get(i).getTitle());
+				books.remove(i);
+				presence = true;
+				return presence;
+			}
+
+		}
+		return presence;
+	}
+
+	// 도서 검색
+
+	public void searchBook(String title) {
+		for (Book book : books) {
+			if (book.getTitle().equals(title) == true) {
+				System.out.println("\n==================================================");
+				System.out.println("도서 정보를 출력합니다.\n");
+				System.out.println("도서명: " + book.getTitle());
+				System.out.println("저자명: " + book.getAuthor());
+				System.out.println("출판사명: " + book.getPublisher());
+				System.out.println("가격: " + book.getPrice());
+			}
+		}
+
+	}
+
+}
+
+public class LibraryManage {
+	public static void main(String[] args) {
+
+		// TODO Auto-generated method stub
+		int input;
+		String name;
+		String author;
+		String publisher;
+		int price;
+
+		Book book;
+		Library library;
+		library = new Library();
+		library.BookManagement();
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("\n순천향 도서관 서비스에 접속합니다. 원하는 서비스를 선택해 주십시오");
+			System.out.println("1.도서 추가 2.도서 삭제 3.도서 검색 4.서비스 종료\n");
+			System.out.println("==================================================");
+			System.out.print("입력: ");
+
+			input = sc.nextInt();
+
+			 if (input == 1) {
+	                System.out.println("\n추가할 도서의 정보를 입력해 주십시오");
+
+	                System.out.print("도서명: ");
+	                name = sc.next();
+	                System.out.print("저자명: ");
+	                author = sc.next();
+	                System.out.print("출판사명: ");
+	                publisher = sc.next();
+	                System.out.print("가격: ");
+	                price = sc.nextInt();
+	                sc.nextLine(); // 버퍼 비우기
+
+	                library.addBook(new Book(name, author, publisher, price));
+	                System.out.println("\n==================================================");
+	                System.out.println("도서가 정상적으로 등록되었습니다.");
+	            }
+
+			else if (input == 2) {
+				boolean result;
+
+				System.out.println("\n삭제할 도서의 정보를 입력해 주십시오");
+
+				System.out.print("도서명: ");
+				name = sc.next();
+
+				result = library.removeBook(name);
+				if (result == false) {
+					System.out.println("해당 도서가 존재하지 않습니다.");
+				} else {
+					System.out.println("\n==================================================");
+					System.out.println("도서가 정상적으로 삭제되었습니다.");
+				}
+
+			}
+
+			else if (input == 3) {
+				System.out.println("\n검색할 도서의 정보를 입력해 주십시오");
+
+				System.out.print("도서명: ");
+				name = sc.next();
+
+			}
+
+			else {
+				System.out.println("\n==================================================");
+				System.out.println("\n서비스를 이용해주셔서 감사합니다. 서비스를 종료합니다.");
+				break;
+			}
+
+		} while (true);
+	}
+
+}

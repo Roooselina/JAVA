@@ -1,0 +1,55 @@
+package main;
+
+import Monster.MON_Ghost;
+import Monster.MON_TreeMonster;
+import Object.OBJ_CLOSE_BOX;
+import Object.OBJ_STAIR_BOTTOM;
+import Object.OBJ_STAIR_MIDDLE;
+import Object.OBJ_STAIR_TOP;
+
+public class ObjectSetter {
+	GamePanel gp;
+
+	public ObjectSetter(GamePanel gp) {
+		this.gp = gp;
+	}
+
+	public void setObject() {
+		gp.obj[0] = new OBJ_CLOSE_BOX();
+		gp.obj[0].worldX = 2 * gp.getOrigianlCharacterSize();
+		gp.obj[0].worldY = 1 * gp.getOrigianlCharacterSize();
+
+		gp.obj[1] = new OBJ_CLOSE_BOX();
+		gp.obj[1].worldX = 2 * gp.getOrigianlCharacterSize();
+		gp.obj[1].worldY = 14 * gp.getOrigianlCharacterSize();
+
+		gp.obj[2] = new OBJ_CLOSE_BOX();
+		gp.obj[2].worldX = 29 * gp.getOrigianlCharacterSize();
+		gp.obj[2].worldY = 8 * gp.getOrigianlCharacterSize();
+
+		gp.obj[3] = new OBJ_STAIR_TOP();
+		gp.obj[3].worldX = 0 * gp.getOrigianlCharacterSize();
+		gp.obj[3].worldY = 8 * gp.getOrigianlCharacterSize();
+
+		gp.obj[4] = new OBJ_STAIR_MIDDLE();
+		gp.obj[4].worldX = 0 * gp.getOrigianlCharacterSize();
+		gp.obj[4].worldY = 9 * gp.getOrigianlCharacterSize();
+
+		gp.obj[5] = new OBJ_STAIR_BOTTOM();
+		gp.obj[5].worldX = 0 * gp.getOrigianlCharacterSize();
+		gp.obj[5].worldY = 10 * gp.getOrigianlCharacterSize();
+
+	}
+
+	public void setNPC() {
+
+	}
+
+	public void setMonster() {
+		gp.monster.add(new MON_TreeMonster(gp));
+		gp.monster.get(0).worldX = 4 * gp.getOrigianlCharacterSize();
+		gp.monster.get(0).worldY = 4 * gp.getOrigianlCharacterSize();
+
+	}
+
+}

@@ -1,0 +1,32 @@
+package main;
+
+import java.awt.Graphics2D;
+
+import Entity.CommonEntity;
+
+public class MonsterBattle {
+	GamePanel gp;
+
+	public MonsterBattle(GamePanel gp) {
+		this.gp = gp;
+	}
+
+	
+	public int Battle(CommonEntity entity) {
+		while(entity.HP!=0 && gp.player.HP!=0) {
+			if (entity.speed>gp.player.speed) {
+				
+			}
+			else {
+				
+			}
+			return 1;
+		}
+		return 0;
+	}
+	
+	
+	public void BattlePlayerCondition(Graphics2D g2) {
+		gp.playerImages.drawPlayerImg(40, 150, playerFace, g2);
+	}
+}

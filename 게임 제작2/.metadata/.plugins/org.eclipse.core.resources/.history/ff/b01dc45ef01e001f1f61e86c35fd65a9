@@ -1,0 +1,84 @@
+package main;
+
+package main;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import Entity.CommonEntity;
+
+public class MonsterBattle extends CommonEntity {
+    GamePanel gp;
+    int playerFace = 0;
+    public CommonEntity entity;
+
+    public MonsterBattle(GamePanel gp) {
+        super(gp);
+        this.gp = gp;
+    }
+
+    public void Battle(CommonEntity entity, Graphics2D g2) {
+        this.entity = entity;
+        BattlePlayerCondition(entity, g2);
+
+        if (gp.player.life != 0 && entity.life != 0) {
+            gp.result = 3; // Battle ongoing
+        }
+        if (gp.player.life == 0) {
+            gp.result = 0; // Player lost
+        }
+        if (entity.life == 0) {
+            gp.result = 1; // Player won
+        }
+    }
+
+    public void adjustLife(int i) {
+        if (i == 0) { // Entity attacks player
+            gp.player.life -= entity.attack;
+            if (gp.player.life <= 0) {
+                System.out.println("Monster won the battle!");
+                System.exit(1);
+            }
+        } else { // Player attacks entity
+            entity.life -= gp.player.attack;
+            if (entity.life <= 0) {
+                System.out.println("Player won the battle!");
+                gp.killedMonster++;
+                gp.monster.remove(entity);
+            }
+        }
+    }
+
+    public void BattlePlayerCondition(CommonEntity entity, Graphics2D g2) {
+        if (gp.player.HP >= gp.player.maxLife * 0.8) {
+            playerFace = 0;
+        } else if (gp.player.HP >= gp.player.maxLife * 0.5) {
+            playerFace = 2;
+        } else if (gp.player.HP >= gp.player.maxLife * 0.2) {
+            playerFace = 3;
+        }
+        gp.playerImages.drawPlayerImg(40, 150, playerFace, g2);
+
+        BufferedImage image = null;
+
+        // Use appropriate images for the monster's condition or direction
+        BufferedImage image1 = null;
+        switch (direction) {
+            case "nothing":
+                image1 = (spriteNum == 1) ? st1 : (spriteNum == 2) ? st2 : (spriteNum == 3) ? st3 : st4;
+                break;
+            case "up":
+            case "down":
+            case "right":
+                image1 = (spriteNum == 1) ? right1 : (spriteNum == 2) ? right2 : (spriteNum == 3) ? right3 : right4;
+                break;
+            case "left":
+                image1 = (spriteNum == 1) ? left1 : (spriteNum == 2) ? left2 : (spriteNum == 3) ? left3 : left4;
+                break;
+        }
+
+        // Draw the image
+        g2.drawImage(image1, worldX - gp.player.worldX + gp.player.screenX, worldY - gp.player.worldY + gp.player.screenY, gp.getOrigianlCharacterSize(), gp.getOrigianlCharacterSize(), null);
+    }
+}

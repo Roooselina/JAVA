@@ -1,0 +1,6 @@
+package Dialogue;
+
+public class SuperDialogue {
+	int face;
+	public String monologue;
+}

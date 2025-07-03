@@ -1,0 +1,9 @@
+package main;
+
+public class ObjectSetter {
+	GamePanel gp;
+	
+	public ObjectSetter(GamePanel gp) {
+		
+	}
+}

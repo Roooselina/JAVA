@@ -1,0 +1,46 @@
+package 시험;
+
+import java.util.Arrays;
+
+interface GetInfo {
+    double getValue();
+}
+
+class Student implements GetInfo {
+    private double grade;
+    private int index = 0;
+    private final GetInfo[] grades = new GetInfo[5];
+
+    // 학생의 성적 정보를 추가하는 메서드
+    public void addGrade(double grade) {
+        if (index < grades.length) {
+            grades[index++] = () -> grade;
+        }
+    }
+
+    @Override
+    public double getValue() {
+        double sum = 0;
+        for (int i = 0; i < grades.length; i++) {
+            sum += grades[i].getValue(); // GetInfo 인터페이스의 getValue 메서드 호출
+        }
+        return sum / grades.length; // 배열의 크기로 나눠서 평균을 구함
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        // 학생 객체 생성
+        Student student = new Student();
+        
+        // 성적 정보 추가
+        student.addGrade(10);
+        student.addGrade(20);
+        student.addGrade(30);
+        student.addGrade(40);
+        student.addGrade(50);
+        
+        // 평균 성적 출력
+        System.out.println("평균 성적: " + student.getValue());
+    }
+}

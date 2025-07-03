@@ -1,0 +1,49 @@
+package 교과서_8_4;
+
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+class myFrame extends JFrame{
+	JLabel text,t2,t3;
+	JTextField text1,text2;
+	JButton btn;
+	
+	myFrame(){
+		setTitle("BMI 계산기");
+		setSize(600,300);
+		
+		this.setLayout(new GridLayout(4,1,-10,0));
+		text = new JLabel("나의 BMI 지수는 얼마나 될까?");
+		add(text);
+		
+		JPanel p1 = new JPanel();
+		add(p1);
+		t2 = new JLabel("나의 체중(kg): ");
+		text1 = new JTextField(15);
+		p1.add(t2);
+		p1.add(text1);
+		
+		JPanel p2 = new JPanel();
+		add(p2);
+		t3 = new JLabel("나의 키(m): ");
+		text2 = new JTextField(15);
+		p2.add(t3);
+		p2.add(text2);
+
+		
+		this.setLocationRelativeTo(null);
+		setVisible(true);
+		this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+	}
+}
+
+public class MAIN {
+	public static void main(String args[]) {
+		myFrame m = new myFrame();
+	}
+}
